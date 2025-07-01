@@ -1,0 +1,33 @@
+server:
+  port: 8080
+
+spring:
+  profiles:
+    active: local
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  mvc:
+    throw-exception-if-no-handler-found: true
+  web:
+    resources:
+      add-mappings: false
+
+logging:
+  level:
+    org.springframework.web.multipart: DEBUG
+    org.springframework.web.servlet.DispatcherServlet: DEBUG
+    org.hibernate: ERROR
+
+# 강제로 UTF-8 인코딩
+http:
+  encoding:
+    charset: UTF-8
+    enabled: true
+    force: true
