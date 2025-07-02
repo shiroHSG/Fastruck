@@ -1,5 +1,6 @@
 package com.deal.Fastruck.entity;
 
+import com.deal.Fastruck.entity.enums.CargoRequestStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -21,7 +22,7 @@ public class CargoRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // 작성자 (화주)
+    // 글 작성자 (화주)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shipper_id", nullable = false)
     private Member shipper;
@@ -52,9 +53,13 @@ public class CargoRequest {
     // 원하는 도착 시간 (선택)
     private LocalDateTime deliveryTime;
 
-    // 요청 상태: UNASSIGNED / ASSIGN / COMPLETE
-    @Column(nullable = false, length = 20)
-    private String status;
+    // 예상 소요 시간 필드 추가
+    @Column(length = 30)
+    private String expectedTime; // 예: "3시간", "2일"
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private CargoRequestStatus status; // UNASSIGNED / ASSIGN / COMPLETE
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
