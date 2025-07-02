@@ -37,6 +37,8 @@ public class CurrentMemberArgumentResolver implements HandlerMethodArgumentResol
         }
 
         Long memberId;
+        System.out.println("auth.getPrincipal() = " + auth.getPrincipal());
+        System.out.println("class = " + auth.getPrincipal().getClass());
         try {
             memberId = (Long) auth.getPrincipal();
         } catch (ClassCastException e) {
