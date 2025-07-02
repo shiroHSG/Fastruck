@@ -1,7 +1,7 @@
 package com.deal.Fastruck.repository;
 
 import com.deal.Fastruck.entity.CargoRequest;
-import com.deal.Fastruck.entity.CargoRequestStatus;
+import com.deal.Fastruck.entity.enums.CargoRequestStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

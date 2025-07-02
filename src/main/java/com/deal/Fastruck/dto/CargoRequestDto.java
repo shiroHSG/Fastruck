@@ -1,6 +1,6 @@
 package com.deal.Fastruck.dto;
 
-import com.deal.Fastruck.entity.CargoRequestStatus;
+import com.deal.Fastruck.entity.enums.CargoRequestStatus;
 import lombok.*;
 
 import java.time.LocalDateTime;

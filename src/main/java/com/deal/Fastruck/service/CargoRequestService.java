@@ -2,7 +2,7 @@ package com.deal.Fastruck.service;
 
 import com.deal.Fastruck.dto.CargoRequestDto;
 import com.deal.Fastruck.entity.CargoRequest;
-import com.deal.Fastruck.entity.CargoRequestStatus;
+import com.deal.Fastruck.entity.enums.CargoRequestStatus;
 import com.deal.Fastruck.repository.CargoRequestRepository;
 import com.deal.Fastruck.entity.Member;
 import com.deal.Fastruck.repository.MemberRepository;
