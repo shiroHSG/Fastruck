@@ -8,6 +8,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -26,6 +28,11 @@ public class CargoRequest {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shipper_id", nullable = false)
     private Member shipper;
+
+    // 배정된 운송기사 (null 가능)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "carrier_id")
+    private Member carrier;
 
     // 요구사항
     @Lob
@@ -60,6 +67,14 @@ public class CargoRequest {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private CargoRequestStatus status; // UNASSIGNED / ASSIGN / COMPLETE
+
+    @Builder.Default
+    @OneToMany(mappedBy = "cargoRequest", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BidProposal> bidProposals = new ArrayList<>();
+
+    @Builder.Default
+    @OneToOne(mappedBy = "cargoRequest", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Contract contract = null;
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
