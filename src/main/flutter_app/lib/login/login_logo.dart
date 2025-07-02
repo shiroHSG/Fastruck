@@ -1,3 +1,4 @@
+// 상단 로고 영역
 import 'package:flutter/material.dart';
 
 class LoginLogo extends StatelessWidget {

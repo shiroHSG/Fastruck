@@ -1,3 +1,4 @@
+// 로그인 전체 구조
 import 'package:flutter/material.dart';
 
 import '../app_theme.dart';

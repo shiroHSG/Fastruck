@@ -1,3 +1,5 @@
+// 이메일/비번 입력 및 버튼
+// 로그인 처리 부분
 import 'package:flutter/material.dart';
 import '../app_theme.dart';
 import 'login_footer.dart';

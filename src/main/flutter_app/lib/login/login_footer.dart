@@ -1,5 +1,5 @@
+// 하단 회원가입
 import 'package:flutter/material.dart';
-
 import '../sign up/signup.dart';
 
 class LoginFooter extends StatelessWidget {
