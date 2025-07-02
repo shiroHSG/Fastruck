@@ -1,5 +1,6 @@
 package com.deal.Fastruck.entity;
 
+import com.deal.Fastruck.entity.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -7,6 +8,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -40,6 +43,44 @@ public class Member {
     // 연락처 (선택)
     @Column(length = 20)
     private String phone;
+
+    private String imageUrl;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "shipper", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CargoRequest> requests = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "carrier", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BidProposal> bidProposals = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "shipper", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Contract> shipperContract = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "carrier", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Contract> carrierContract = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> writerReview = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> receiverReview = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "reporter", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Report> reporterReport = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "target", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Report> targetReport = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AdminNotice> notices = new ArrayList<>();
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
