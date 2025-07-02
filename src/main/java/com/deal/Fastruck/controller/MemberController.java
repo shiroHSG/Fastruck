@@ -1,5 +1,6 @@
 package com.deal.Fastruck.controller;
 
+import com.deal.Fastruck.dto.LoginRequestDto;
 import com.deal.Fastruck.dto.LoginResponseDto;
 import com.deal.Fastruck.dto.MemberRequestDto;
 import com.deal.Fastruck.service.MemberService;
