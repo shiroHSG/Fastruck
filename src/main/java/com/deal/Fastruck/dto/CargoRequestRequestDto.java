@@ -10,22 +10,13 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CargoRequestDto {
-    private Long id;
+public class CargoRequestRequestDto {
     private String requestContent;
     private String departureLocation;
     private String arrivalLocation;
     private String cargoType;
     private Float weight;
-    private String volume;
     private LocalDateTime pickupTime;
     private LocalDateTime deliveryTime;
-    private CargoRequestStatus status;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-    private String shipperName;
-    private String shipperPhone;
-    private String carrierName;   // 배정된 기사 이름
-    private String carrierPhone;  // 배정된 기사 연락처
     private String expectedTime;
 }
