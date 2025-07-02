@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 public class BidProposalDto {
     private Long id;
     private Long cargoRequestId;
-    private String cargoTitle;
     private Long carrierId;
     private String carrierName;
     private Long proposedPrice;
