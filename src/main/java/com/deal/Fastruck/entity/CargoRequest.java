@@ -40,16 +40,17 @@ public class CargoRequest {
     private String cargoType;
 
     @Column(nullable = false, length = 30)
-    private String weight; // 예: "1000kg"
-
-    @Column(length = 30)
-    private String volume; // 선택
+    private float weight; // 예: "1000kg"
 
     @Column
     private LocalDateTime pickupTime;
 
     @Column
     private LocalDateTime deliveryTime;
+
+    // 예상 소요 시간 필드 추가
+    @Column(length = 30)
+    private String expectedTime; // 예: "3시간", "2일"
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -63,4 +64,5 @@ public class CargoRequest {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 }
+
 // 화물 요청글
