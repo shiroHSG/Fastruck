@@ -1,8 +1,14 @@
 // 입력 필드 + 가입유형 + 버튼
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_app/sign%20up/signup_input_field.dart';
 import 'package:flutter_app/sign%20up/signup_label.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import '../app_theme.dart';
+import '../main.dart';
 import 'join_type_selector.dart';
 
 class SignUpForm extends StatefulWidget {
@@ -13,7 +19,67 @@ class SignUpForm extends StatefulWidget {
 }
 
 class _SignUpFormState extends State<SignUpForm> {
-  String? selectedJoinType;
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+
+  String? selectedJoinType; // 화주 / 차주
+  File? _selectedImageFile;
+
+  Future<void> _register() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    final url = Uri.parse('$baseUrl/api/member/register');
+
+    final memberData = {
+      'role': selectedJoinType == '화주' ? 'SHIPPER' : 'CARRIER',
+      'name': _nameController.text.trim(),
+      'email': _emailController.text.trim(),
+      'password': _passwordController.text.trim(),
+      'phone': _phoneController.text.trim(),
+    };
+
+    final request = http.MultipartRequest('POST', url)
+      ..fields['memberData'] = jsonEncode(memberData);
+
+    if (_selectedImageFile != null) {
+      request.files.add(await http.MultipartFile.fromPath('image', _selectedImageFile!.path));
+    }
+
+    try {
+      final response = await request.send();
+
+      if (response.statusCode == 200) {
+        print("회원가입 성공");
+        _showDialog('회원가입이 완료되었습니다!');
+        Navigator.pushReplacementNamed(context, '/login');
+      } else {
+        final responseBody = await response.stream.bytesToString();
+        print("실패: $responseBody");
+        _showDialog('회원가입 실패: 서버 응답 오류');
+      }
+    } catch (e) {
+      print("오류: $e");
+      _showDialog('회원가입 중 오류 발생');
+    }
+  }
+
+  void _showDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text('알림'),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('확인'),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,9 +128,7 @@ class _SignUpFormState extends State<SignUpForm> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                onPressed: () {
-                  print('선택된 가입유형: $selectedJoinType');
-                },
+                onPressed: _register,
                 child: const Text('회원가입'),
               ),
             ),

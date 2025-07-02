@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'app_theme.dart';
 import 'login/login.dart';
 
+const String baseUrl = 'http://10.0.2.2:8080';
+
 void main() {
   runApp(const MyApp());
 }
