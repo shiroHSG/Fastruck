@@ -1,6 +1,6 @@
 package com.deal.Fastruck.dto;
 
-import com.deal.Fastruck.entity.Role;
+import com.deal.Fastruck.entity.enums.Role;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
