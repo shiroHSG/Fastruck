@@ -20,7 +20,8 @@ public class AdminNotice {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false)
     private Member receiver;
 
     @Column(nullable = false)

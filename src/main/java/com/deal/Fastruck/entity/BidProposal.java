@@ -38,6 +38,10 @@ public class BidProposal {
     @Column(nullable = false)
     private BidStatus status; // PENDING, ACCEPTED, REJECTED
 
+    @Builder.Default
+    @OneToOne(mappedBy = "bidProposal", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Contract contract = null;
+
     @CreatedDate
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;

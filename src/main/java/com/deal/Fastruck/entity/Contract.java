@@ -8,6 +8,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -22,17 +24,23 @@ public class Contract {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(optional = false)
+    @OneToOne
+    @JoinColumn(name = "cargo_request_id", nullable = false)
     private CargoRequest cargoRequest;
 
-    @ManyToOne(optional = false)
+    @OneToOne
+    @JoinColumn(name = "bid_proposal_id", nullable = false)
+    private BidProposal bidProposal;
+
+    // 글 작성자 (화주)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "shipper_id", nullable = false)
     private Member shipper;
 
-    @ManyToOne(optional = false)
+    // 글 작성자 (화주)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "carrier_id", nullable = false)
     private Member carrier;
-
-    @ManyToOne(optional = false)
-    private BidProposal bidProposal;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -40,6 +48,14 @@ public class Contract {
 
     private LocalDateTime pickupTime;
     private LocalDateTime deliveryTime;
+
+    @Builder.Default
+    @OneToOne(mappedBy = "contract", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Review review = null;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "contract", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Report> reports = new ArrayList<>();
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
