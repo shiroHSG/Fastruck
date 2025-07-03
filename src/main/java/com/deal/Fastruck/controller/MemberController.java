@@ -1,8 +1,11 @@
 package com.deal.Fastruck.controller;
 
+import com.deal.Fastruck.annotation.CurrentMember;
 import com.deal.Fastruck.dto.LoginRequestDto;
 import com.deal.Fastruck.dto.LoginResponseDto;
 import com.deal.Fastruck.dto.MemberRequestDto;
+import com.deal.Fastruck.dto.MemberResponseDto;
+import com.deal.Fastruck.entity.Member;
 import com.deal.Fastruck.service.MemberService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -76,5 +79,14 @@ public class MemberController {
 
         LoginResponseDto loginResponse = memberService.login(loginRequest);
         return ResponseEntity.ok(loginResponse);
+    }
+
+    /**
+     * 내 정보 조회 (/me)
+     */
+    @GetMapping
+    public ResponseEntity<MemberResponseDto> getMe(@CurrentMember Member member) {
+        MemberResponseDto responseDto = memberService.getMember(member);
+        return ResponseEntity.ok(responseDto);
     }
 }
