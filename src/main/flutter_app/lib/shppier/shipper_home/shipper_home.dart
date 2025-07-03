@@ -44,9 +44,9 @@ class _ShipperHomePageState extends State<ShipperHomePage> {
       body = const ShipperRequestPage(); // 여기서 push 없이 body만 교체
     } else if (currentIndex == 2) {
       body = const ShipperReviewPage();
-    } else if (currentIndex == 3) {
+    } /*else if (currentIndex == 3) {
       body = const ShipperReviewPage();
-    } else if (currentIndex == 4) {
+    }*/ else if (currentIndex == 4) {
       body = const ProfilePage();
     } else {
       body = const Center(child: Text('아직 구현되지 않은 탭입니다.'));
