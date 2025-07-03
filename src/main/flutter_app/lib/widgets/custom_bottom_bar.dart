@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../app_theme.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
@@ -11,6 +10,28 @@ class CustomBottomNavigationBar extends StatelessWidget {
     required this.currentIndex,
     required this.onTap,
   });
+
+  void _onItemTapped(BuildContext context, int index) {
+    if (index == currentIndex) return; // 현재 탭이면 이동하지 않음
+
+    switch (index) {
+      case 0:
+        Navigator.pushReplacementNamed(context, '/shipper_home');
+        break;
+      case 1:
+        Navigator.pushReplacementNamed(context, '/shipper_request');
+        break;
+      case 2:
+        Navigator.pushReplacementNamed(context, '/shipper_review');
+        break;
+      case 3:
+        Navigator.pushReplacementNamed(context, '/shipper_notice');
+        break;
+      case 4:
+        Navigator.pushReplacementNamed(context, '/shipper_profile');
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
