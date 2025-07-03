@@ -32,23 +32,32 @@ class _LoginFormState extends State<LoginForm> {
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'email': email, 'password': password}),
       );
+      print(response.body);
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        final accessToken = data['accessToken'];
-        final refreshToken = data['refreshToken'];
-        final role = data['role'];
+        final accessToken = data['accessToken'] as String? ?? '';
+        final refreshToken = data['refreshToken'] as String? ?? '';
+        final role = data['role'] as String? ?? '';
 
-        // 🔐 토큰 저장
+        if (accessToken.isEmpty || refreshToken.isEmpty || role.isEmpty) {
+          _showDialog('로그인 실패: 서버 응답에 필요한 값이 없습니다.');
+          return;
+        }
+
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('accessToken', accessToken);
         await prefs.setString('refreshToken', refreshToken);
         await prefs.setString('role', role);
 
-        print('토큰 저장 완료');
-
-        // TODO: 홈화면으로 이동
-        _showDialog('로그인 성공! 역할: $role');
+        if (!mounted) return;
+        if (role == 'SHIPPER') {
+          Navigator.pushReplacementNamed(context, '/shipper-home');
+        } else if (role == 'CARRIER') {
+          Navigator.pushReplacementNamed(context, '/carrier-home');
+        } else {
+          _showDialog('알 수 없는 사용자 유형입니다.');
+        }
       } else {
         _showDialog('로그인 실패: 이메일 또는 비밀번호를 확인하세요.');
       }

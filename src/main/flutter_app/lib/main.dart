@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/shipper_home/shipper_home.dart';
 
 import 'app_theme.dart';
 import 'login/login.dart';
@@ -17,6 +18,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: AppTheme.lightTheme,
       home: const StartPage(),
+      routes: {
+        '/login': (context) => const LoginPage(),
+        '/shipper-home': (context) => const ShipperHomePage(),
+        // '/carrier-home': (context) => const CarrierHomePage(),
+      },
       debugShowCheckedModeBanner: false,
     );
   }
@@ -33,8 +39,8 @@ class _StartPageState extends State<StartPage> {
   @override
   void initState() {
     super.initState();
-    // 2초 후 자동 이동
-    Future.delayed(const Duration(seconds: 2), () {
+    // 1초 후 자동 이동
+    Future.delayed(const Duration(seconds: 1), () {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const LoginPage()),
