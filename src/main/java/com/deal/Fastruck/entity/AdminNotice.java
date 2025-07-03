@@ -21,7 +21,7 @@ public class AdminNotice {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false)
+    @JoinColumn(name = "receiver_id", nullable = false)
     private Member receiver;
 
     @Column(nullable = false)

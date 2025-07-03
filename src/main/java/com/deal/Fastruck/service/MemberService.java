@@ -100,4 +100,14 @@ public class MemberService {
                 .updatedAt(member.getUpdatedAt())  // 🔄 변환
                 .build();
     }
+
+    // 로그아웃
+    public void logout(Member member) {
+        // 로그 출력용
+        System.out.println("[Service] 로그아웃 요청 - member: " + member);
+        System.out.println("[Service] RefreshToken 제거 완료");
+
+        member.setRefreshToken(null);
+        memberRepository.save(member);
+    }
 }

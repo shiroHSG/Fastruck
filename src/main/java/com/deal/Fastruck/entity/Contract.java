@@ -50,8 +50,8 @@ public class Contract {
     private LocalDateTime deliveryTime;
 
     @Builder.Default
-    @OneToOne(mappedBy = "contract", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Review review = null;
+    @OneToMany(mappedBy = "contract", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> reviews = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "contract", cascade = CascadeType.ALL, orphanRemoval = true)
