@@ -1,8 +1,12 @@
 package com.deal.Fastruck.repository;
 
 import com.deal.Fastruck.entity.Contract;
+import com.deal.Fastruck.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
 
 public interface ContractRepository extends JpaRepository<Contract, Long> {
 
+    List<Contract> findByShipperOrCarrier(Member member, Member member1);
 }

@@ -2,6 +2,7 @@ package com.deal.Fastruck.service;
 
 import com.deal.Fastruck.dto.ContractRequestDto;
 import com.deal.Fastruck.dto.ContractResponseDto;
+import com.deal.Fastruck.dto.ContractUpdateDto;
 import com.deal.Fastruck.entity.BidProposal;
 import com.deal.Fastruck.entity.CargoRequest;
 import com.deal.Fastruck.entity.Contract;
@@ -11,9 +12,13 @@ import com.deal.Fastruck.repository.BidProposalRepository;
 import com.deal.Fastruck.repository.ContractRepository;
 import com.deal.Fastruck.repository.MemberRepository;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -25,7 +30,7 @@ public class ContractService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public ContractResponseDto createContract(ContractRequestDto dto, Member shipper) {
+    public void createContract(ContractRequestDto dto, Member shipper) {
         // BidProposal 조회
         BidProposal bidProposal = bidProposalRepository.findById(dto.getBidProposalId())
                 .orElseThrow(() -> new EntityNotFoundException("입찰 제안이 존재하지 않습니다."));
@@ -44,7 +49,35 @@ public class ContractService {
                 .build();
 
         contractRepository.save(contract);
-
-        return new ContractResponseDto(contract);
     }
+
+
+    @Transactional(readOnly = true)
+    public List<ContractResponseDto> getContractList(Member member) {
+        List<Contract> contracts = contractRepository.findByShipperOrCarrier(member, member);
+        return contracts.stream()
+                .map(ContractResponseDto::from)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public ContractResponseDto getContractDetail(Long contractId) {
+        Contract contract = contractRepository.findById(contractId)
+                .orElseThrow(() -> new EntityNotFoundException("계약을 찾을 수 없습니다."));
+        return ContractResponseDto.from(contract);
+    }
+
+    @Transactional
+    public void updateContractStatus(Long contractId, ContractUpdateDto dto, Member currentMember) {
+        Contract contract = contractRepository.findById(contractId)
+                .orElseThrow(() -> new EntityNotFoundException("계약을 찾을 수 없습니다."));
+
+        // 인증된 사용자가 화주 or 운송인인지 검증 (권한 체크)
+        if (!contract.getCarrier().getId().equals(currentMember.getId())) {
+            throw new AccessDeniedException("계약 상태를 변경할 권한이 없습니다.");
+        }
+
+        contract.setStatus(dto.getStatus());
+    }
+
 }

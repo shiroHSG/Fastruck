@@ -21,13 +21,15 @@ public class ContractResponseDto {
     private ContractStatus status;
     private LocalDateTime createdAt;
 
-    public ContractResponseDto(Contract contract) {
-        this.id = contract.getId();
-        this.cargoRequestId = contract.getCargoRequest().getId();
-        this.bidProposalId = contract.getBidProposal().getId();
-        this.shipperId = contract.getShipper().getId();
-        this.carrierId = contract.getCarrier().getId();
-        this.status = contract.getStatus();
-        this.createdAt = contract.getCreatedAt();
+    public static ContractResponseDto from(Contract contract) {
+        return ContractResponseDto.builder()
+                .id(contract.getId())
+                .cargoRequestId(contract.getCargoRequest().getId())
+                .bidProposalId(contract.getBidProposal().getId())
+                .shipperId(contract.getShipper().getId())
+                .carrierId(contract.getCarrier().getId())
+                .status(contract.getStatus())
+                .createdAt(contract.getCreatedAt())
+                .build();
     }
 }
