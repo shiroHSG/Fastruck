@@ -8,6 +8,7 @@ import 'package:flutter_app/sign%20up/signup_label.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../app_theme.dart';
+import '../login/login.dart';
 import '../main.dart';
 import 'join_type_selector.dart';
 
@@ -53,10 +54,14 @@ class _SignUpFormState extends State<SignUpForm> {
       if (response.statusCode == 200) {
         print("회원가입 성공");
         _showDialog('회원가입이 완료되었습니다!');
-        Navigator.pushReplacementNamed(context, '/login');
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginPage()),
+        );
       } else {
         final responseBody = await response.stream.bytesToString();
         print("실패: $responseBody");
+        print(jsonEncode(memberData));
         _showDialog('회원가입 실패: 서버 응답 오류');
       }
     } catch (e) {
@@ -98,15 +103,20 @@ class _SignUpFormState extends State<SignUpForm> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SignUpLabel(text: '이메일'),
-            const SignUpInputField(hint: '이메일을 입력하세요'),
+            SignUpInputField(hint: '이메일을 입력하세요', controller: _emailController),
+
             const SignUpLabel(text: '비밀번호'),
-            const SignUpInputField(hint: '비밀번호를 입력하세요', obscure: true),
+            SignUpInputField(hint: '비밀번호를 입력하세요', obscure: true, controller: _passwordController),
+
             const SignUpLabel(text: '비밀번호 확인'),
-            const SignUpInputField(hint: '비밀번호를 다시 입력하세요', obscure: true),
+            const SignUpInputField(hint: '비밀번호를 다시 입력하세요', obscure: true), // 확인용
+
             const SignUpLabel(text: '이름'),
-            const SignUpInputField(hint: '이름을 입력하세요'),
+            SignUpInputField(hint: '이름을 입력하세요', controller: _nameController),
+
             const SignUpLabel(text: '전화번호'),
-            const SignUpInputField(hint: '전화번호를 입력하세요'),
+            SignUpInputField(hint: '전화번호를 입력하세요', controller: _phoneController),
+
             const SignUpLabel(text: '가입 유형을 선택해주세요'),
             JoinTypeSelector(
               onChanged: (value) {

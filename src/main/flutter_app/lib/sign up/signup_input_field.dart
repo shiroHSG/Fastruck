@@ -4,11 +4,19 @@ import 'package:flutter/material.dart';
 class SignUpInputField extends StatelessWidget {
   final String hint;
   final bool obscure;
-  const SignUpInputField({super.key, required this.hint, this.obscure = false});
+  final TextEditingController? controller;
+
+  const SignUpInputField({
+    super.key,
+    required this.hint,
+    this.obscure = false,
+    this.controller,
+  });
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: controller,
       obscureText: obscure,
       decoration: InputDecoration(
         hintText: hint,
