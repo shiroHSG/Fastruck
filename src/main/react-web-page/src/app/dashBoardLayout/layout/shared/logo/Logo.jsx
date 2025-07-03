@@ -3,8 +3,8 @@ import { styled } from "@mui/material";
 import { Link } from "react-router-dom";
 
 const LogoWrapper = styled("div")(() => ({
-  height: "70px",
-  width: "180px",
+  height: "70",
+  width: "150",
   overflow: "hidden",
   display: "block",
 }));
@@ -12,12 +12,12 @@ const LogoWrapper = styled("div")(() => ({
 const Logo = () => {
   return (
     <LogoWrapper>
-      <Link to="/">
+      <Link >
         <img
-          src="/images/logos/dark-logo.svg"
+          src={process.env.PUBLIC_URL + "/logo/logo1.png"}
           alt="logo"
-          height="70"
-          width="174"
+          height="200"
+          width="150"
           style={{ display: "block" }}
         />
       </Link>

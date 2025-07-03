@@ -1,5 +1,4 @@
 "use client";
-import { Link } from 'react-router-dom';
 import { Grid, Box, Card, Stack, Typography } from "@mui/material";
 // components
 import PageContainer from "../../dashBoardLayout/components/container/PageContainer";
@@ -44,20 +43,10 @@ const Login2 = () => {
               elevation={9}
               sx={{ p: 4, zIndex: 1, width: "100%", maxWidth: "500px" }}
             >
-              <Box display="flex" alignItems="center" justifyContent="center">
+              <Box width='100' height='100' display="flex" alignItems="center" justifyContent="center">
                 <Logo />
               </Box>
               <AuthLogin
-                subtext={
-                  <Typography
-                    variant="subtitle1"
-                    textAlign="center"
-                    color="textSecondary"
-                    mb={1}
-                  >
-                    Your Social Campaigns
-                  </Typography>
-                }
                 subtitle={
                   <Stack
                     direction="row"
@@ -66,22 +55,13 @@ const Login2 = () => {
                     mt={3}
                   >
                     <Typography
-                      color="textSecondary"
-                      variant="h6"
-                      fontWeight="500"
-                    >
-                      New to Modernize?
-                    </Typography>
-                    <Typography
-                      component={Link}
-                      href="/authentication/register"
                       fontWeight="500"
                       sx={{
                         textDecoration: "none",
                         color: "primary.main",
                       }}
                     >
-                      Create an account
+                      관리자 전용 페이지 입니다.
                     </Typography>
                   </Stack>
                 }

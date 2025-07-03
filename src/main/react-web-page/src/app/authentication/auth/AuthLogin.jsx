@@ -53,23 +53,6 @@ const AuthLogin = ({ title, subtitle, subtext }) => (
         alignItems="center"
         my={2}
       >
-        <FormGroup>
-          <FormControlLabel
-            control={<Checkbox defaultChecked />}
-            label="Remember this Device"
-          />
-        </FormGroup>
-        <Typography
-          component={Link}
-          to="/forgot-password"
-          fontWeight="500"
-          sx={{
-            textDecoration: "none",
-            color: "primary.main",
-          }}
-        >
-          Forgot Password?
-        </Typography>
       </Stack>
     </Stack>
 
@@ -80,7 +63,7 @@ const AuthLogin = ({ title, subtitle, subtext }) => (
         size="large"
         fullWidth
         component={Link}
-        to="/"
+        to="/dashboard"
         type="submit"
       >
         Sign In

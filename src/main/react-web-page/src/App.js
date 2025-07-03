@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider, CssBaseline } from '@mui/material';
 
 import { baselightTheme } from './utils/theme/DefaultColors';
@@ -21,8 +21,11 @@ function App() {
       <CssBaseline />
       <Router>
         <Routes>
-          <Route path="/" element={<DashboardLayout><Dashboard /></DashboardLayout>} />
+          {/* ✅ "/" 접속 시 로그인 페이지로 리다이렉션 */}
+          <Route path="/" element={<Navigate to="/authentication/login" replace />} />
+
           <Route path="/authentication/login" element={<AuthLayout><LoginPage /></AuthLayout>} />
+          <Route path="/dashboard" element={<DashboardLayout><Dashboard /></DashboardLayout>} />
           <Route path="/authentication/register" element={<AuthLayout><RegisterPage /></AuthLayout>} />
         </Routes>
       </Router>
