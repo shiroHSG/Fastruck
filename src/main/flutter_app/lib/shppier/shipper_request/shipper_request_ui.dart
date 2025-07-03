@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/shppier/shipper_home/shipper_request/request_detail.dart';
+import 'package:flutter_app/shppier/shipper_request/request_detail.dart';
 
 import '../../../app_theme.dart';
 

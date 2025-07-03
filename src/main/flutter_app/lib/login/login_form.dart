@@ -62,7 +62,7 @@ class _LoginFormState extends State<LoginForm> {
 
           if (!mounted) return;
           if (role == 'SHIPPER') {
-            Navigator.pushReplacementNamed(context, '/shipper-home');
+            Navigator.pushReplacementNamed(context, '/shipper_home');
           } else if (role == 'CARRIER') {
             Navigator.pushReplacementNamed(context, '/carrier-home');
           } else {

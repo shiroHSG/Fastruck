@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/shppier/shipper_review/shipper_review.dart';
 
 import 'app_theme.dart';
 import 'package:flutter_app/shppier/shipper_home/shipper_home.dart';
@@ -21,7 +22,8 @@ class MyApp extends StatelessWidget {
       home: const StartPage(),
       routes: {
         '/login': (context) => const LoginPage(),
-        '/shipper-home': (context) => const ShipperHomePage(),
+        '/shipper_home': (context) => const ShipperHomePage(),
+        '/shipper_review': (context) => const ShipperReviewPage(),
         '/carrier-home': (context) => const CarrierHomePage(),
       },
       debugShowCheckedModeBanner: false,

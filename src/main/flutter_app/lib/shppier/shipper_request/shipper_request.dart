@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../../app_theme.dart';
-import '../../../widgets/custom_app_bar.dart';
 import 'shipper_request_ui.dart';
 
 class ShipperRequestPage extends StatefulWidget {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/shppier/shipper_home/shipper_request/request_detail_ui.dart';
+import 'package:flutter_app/shppier/shipper_request/request_detail_ui.dart';
 import '../../../widgets/custom_dialog.dart';
 
 
@@ -27,4 +27,3 @@ class RequestDetailPage extends StatelessWidget {
       ),
     );
   }
-
