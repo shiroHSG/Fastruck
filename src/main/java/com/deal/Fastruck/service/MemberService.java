@@ -3,6 +3,7 @@ package com.deal.Fastruck.service;
 import com.deal.Fastruck.dto.LoginRequestDto;
 import com.deal.Fastruck.dto.LoginResponseDto;
 import com.deal.Fastruck.dto.MemberRequestDto;
+import com.deal.Fastruck.dto.MemberResponseDto;
 import com.deal.Fastruck.entity.Member;
 import com.deal.Fastruck.entity.enums.Role;
 import com.deal.Fastruck.repository.MemberRepository;
@@ -81,5 +82,22 @@ public class MemberService {
         }
 
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "이메일 또는 비밀번호가 일치하지 않습니다.");
+    }
+
+    public MemberResponseDto getMember(Member member) {
+        return toDto(member);
+    }
+
+    private MemberResponseDto toDto(Member member) {
+        return MemberResponseDto.builder()
+                .id(member.getId())
+                .role(member.getRole())
+                .name(member.getName())
+                .email(member.getEmail())
+                .phone(member.getPhone())
+                .imageUrl(member.getImageUrl())
+                .createdAt(member.getCreatedAt())  // 🔄 변환
+                .updatedAt(member.getUpdatedAt())  // 🔄 변환
+                .build();
     }
 }
