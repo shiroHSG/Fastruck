@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/shppier/shipper_review/review_detail.dart';
 import '../../../app_theme.dart';
 import 'shipper_review_ui.dart';
 
@@ -34,8 +35,24 @@ class _ShipperReviewPageState extends State<ShipperReviewPage> {
     setState(() {
       _selectedIndex = index;
     });
-
-    // 라우트 이동은 추후 필요시 추가
+  }
+  void _onReviewTap(int index) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => const ReviewDetailPage(
+          name: '홍길동',
+          phone: '010-1234-5678',
+          requestTime: '2025.07.02 12:40',
+          price: '500,000원',
+          note: '친절하고 빠른 배송 부탁드립니다.',
+          estimatedArrival: '2025.07.03',
+          actualArrival: '2025.07.02',
+          rating: 5,
+          reviewContent: '정확한 시간에 도착해주셔서 감사합니다!',
+        ),
+      ),
+    );
   }
 
   @override
@@ -46,6 +63,7 @@ class _ShipperReviewPageState extends State<ShipperReviewPage> {
         reviewList: reviewList,
         selectedIndex: _selectedIndex,
         onItemTapped: _onItemTapped,
+        onReviewTap: _onReviewTap,
       ),
     );
   }
