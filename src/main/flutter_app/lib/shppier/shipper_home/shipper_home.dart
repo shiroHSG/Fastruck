@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../app_theme.dart';
 import '../../widgets/custom_app_bar.dart';
 import '../../widgets/custom_bottom_bar.dart';
+import '../shipper_profile/shipper_profile.dart';
 import '../shipper_request/shipper_request.dart';
 import '../shipper_review/shipper_review.dart';
 import 'shipper_home_ui.dart';
@@ -43,6 +44,10 @@ class _ShipperHomePageState extends State<ShipperHomePage> {
       body = const ShipperRequestPage(); // 여기서 push 없이 body만 교체
     } else if (currentIndex == 2) {
       body = const ShipperReviewPage();
+    } else if (currentIndex == 3) {
+      body = const ShipperReviewPage();
+    } else if (currentIndex == 4) {
+      body = const ProfilePage();
     } else {
       body = const Center(child: Text('아직 구현되지 않은 탭입니다.'));
     }

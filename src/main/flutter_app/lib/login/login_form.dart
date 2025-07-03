@@ -60,11 +60,20 @@ class _LoginFormState extends State<LoginForm> {
 
           await prefs.setString('role', role);
 
+          final name = userData['name'];
+          final phone = userData['phone'];
+          final email = userData['email'];
+          await prefs.setString('name', name);
+          await prefs.setString('phone', phone);
+          await prefs.setString('email', email);
+
+          print('[사용자 정보] 이름: $name, 연락처: $phone');
+
           if (!mounted) return;
           if (role == 'SHIPPER') {
             Navigator.pushReplacementNamed(context, '/shipper_home');
           } else if (role == 'CARRIER') {
-            Navigator.pushReplacementNamed(context, '/carrier-home');
+            Navigator.pushReplacementNamed(context, '/carrier_home');
           } else {
             _showDialog('알 수 없는 사용자 유형입니다.');
           }

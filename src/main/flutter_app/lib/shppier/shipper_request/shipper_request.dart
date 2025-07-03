@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/shppier/shipper_request/request_write.dart';
 import '../../../app_theme.dart';
 import 'shipper_request_ui.dart';
 
@@ -47,6 +48,16 @@ class _ShipperRequestPageState extends State<ShipperRequestPage> {
         selectedMonth: selectedMonth,
         requestList: requestList,
         onMonthChanged: onMonthChanged,
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // 글 작성 페이지로 이동
+          debugPrint('글쓰기 버튼 클릭됨');
+          Navigator.push(context, MaterialPageRoute(builder: (_) => const RequestWritePage()));
+        },
+        backgroundColor: AppColors.primary,
+        shape: const CircleBorder(),
+        child: const Icon(Icons.edit, color: AppColors.white),
       ),
     );
   }
