@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/shipper_home/shipper_home.dart';
 
 import 'app_theme.dart';
+import 'carrier_home/carrier_home.dart';
 import 'login/login.dart';
 
 const String baseUrl = 'http://10.0.2.2:8080';
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/login': (context) => const LoginPage(),
         '/shipper-home': (context) => const ShipperHomePage(),
-        // '/carrier-home': (context) => const CarrierHomePage(),
+        '/carrier-home': (context) => const CarrierHomePage(),
       },
       debugShowCheckedModeBanner: false,
     );

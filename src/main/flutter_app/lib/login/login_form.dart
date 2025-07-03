@@ -32,31 +32,44 @@ class _LoginFormState extends State<LoginForm> {
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'email': email, 'password': password}),
       );
-      print(response.body);
+      print('[로그인 응답] ${response.body}');
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         final accessToken = data['accessToken'] as String? ?? '';
         final refreshToken = data['refreshToken'] as String? ?? '';
-        final role = data['role'] as String? ?? '';
 
-        if (accessToken.isEmpty || refreshToken.isEmpty || role.isEmpty) {
-          _showDialog('로그인 실패: 서버 응답에 필요한 값이 없습니다.');
+        if (accessToken.isEmpty || refreshToken.isEmpty) {
+          _showDialog('로그인 실패: 토큰이 없습니다.');
           return;
         }
 
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('accessToken', accessToken);
         await prefs.setString('refreshToken', refreshToken);
-        await prefs.setString('role', role);
 
-        if (!mounted) return;
-        if (role == 'SHIPPER') {
-          Navigator.pushReplacementNamed(context, '/shipper-home');
-        } else if (role == 'CARRIER') {
-          Navigator.pushReplacementNamed(context, '/carrier-home');
+        // 사용자 정보 요청해서 role 확인
+        final userInfoRes = await http.get(
+          Uri.parse('$baseUrl/api/member'),
+          headers: {'Authorization': 'Bearer $accessToken'},
+        );
+
+        if (userInfoRes.statusCode == 200) {
+          final userData = jsonDecode(userInfoRes.body);
+          final role = userData['role']; // SHIPPER or CARRIER
+
+          await prefs.setString('role', role);
+
+          if (!mounted) return;
+          if (role == 'SHIPPER') {
+            Navigator.pushReplacementNamed(context, '/shipper-home');
+          } else if (role == 'CARRIER') {
+            Navigator.pushReplacementNamed(context, '/carrier-home');
+          } else {
+            _showDialog('알 수 없는 사용자 유형입니다.');
+          }
         } else {
-          _showDialog('알 수 없는 사용자 유형입니다.');
+          _showDialog('사용자 정보를 불러올 수 없습니다.');
         }
       } else {
         _showDialog('로그인 실패: 이메일 또는 비밀번호를 확인하세요.');
