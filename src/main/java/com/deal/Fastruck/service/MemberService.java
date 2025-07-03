@@ -52,19 +52,12 @@ public class MemberService {
     }
 
     public LoginResponseDto login(LoginRequestDto dto) {
-        System.out.println("[Service] 로그인 시도: " + dto.getEmail());
 
         Optional<Member> optional = memberRepository.findByEmail(dto.getEmail());
         if (optional.isPresent()) {
             Member member = optional.get();
-            System.out.println("[Service] 사용자 존재함: " + member.getEmail());
 
             if (passwordEncoder.matches(dto.getPassword(), member.getPassword())) {
-                System.out.println("[Service] 비밀번호 일치 → 토큰 발급 진행");
-
-                // ✅ mateInfo 로그 확인
-                System.out.println("[Service] member.getId(): " + member.getId());
-
                 String accessToken = jwtUtil.generateAccessToken(member.getId());
                 String refreshToken = jwtUtil.generateRefreshToken(member.getId());
 
@@ -74,8 +67,6 @@ public class MemberService {
 
                 member.setRefreshToken(refreshToken);
                 memberRepository.save(member);
-
-                System.out.println("[Service] 로그인 성공 → 토큰 저장 완료");
 
                 return LoginResponseDto.builder()
                         .accessToken(accessToken)
