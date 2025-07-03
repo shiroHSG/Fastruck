@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/shppier/shipper_home/shipper_request/request_detail.dart';
 
 import '../../../app_theme.dart';
 
@@ -93,40 +94,50 @@ class ShipperRequestUI extends StatelessWidget {
             separatorBuilder: (_, __) => const SizedBox(height: 10),
             itemBuilder: (context, index) {
               final item = requestList[index];
-              return Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: AppColors.base),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                padding: const EdgeInsets.all(12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '${item['from']} → ${item['to']}',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.point,
+              return InkWell(
+                onTap: () {
+                  debugPrint('리스트 ${index + 1}번 클릭됨: ${item['from']} → ${item['to']}');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const RequestDetailPage()),
+                  );
+                },
+                borderRadius: BorderRadius.circular(8),
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: AppColors.base),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  padding: const EdgeInsets.all(12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            '${item['from']} → ${item['to']}',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.point,
+                            ),
                           ),
-                        ),
-                        Text(
-                          item['status'],
-                          style: TextStyle(
-                            color: _statusColor(item['status']),
-                            fontWeight: FontWeight.bold,
+                          Text(
+                            item['status'],
+                            style: TextStyle(
+                              color: _statusColor(item['status']),
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 6),
-                    Text(
-                      (item['info'] as String?) ?? '',
-                      style: const TextStyle(color: Colors.grey),
-                    ),
-                  ],
+                        ],
+                      ),
+                      const SizedBox(height: 6),
+                      Text(
+                        (item['info'] as String?) ?? '',
+                        style: const TextStyle(color: Colors.grey),
+                      ),
+                    ],
+                  ),
                 ),
               );
             },
