@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../app_theme.dart';
+import '../../app_theme.dart';
 
 class CarrierHomeUI extends StatelessWidget {
   final bool hasOngoingBid;

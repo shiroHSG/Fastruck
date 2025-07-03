@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../app_theme.dart';
+import '../../app_theme.dart';
 import 'carrier_home_ui.dart';
-import '../widgets/custom_app_bar.dart';
-import '../widgets/custom_bottom_bar.dart';
+import '../../widgets/custom_app_bar.dart';
+import '../../widgets/custom_bottom_bar.dart';
 
 class CarrierHomePage extends StatefulWidget {
   const CarrierHomePage({super.key});
