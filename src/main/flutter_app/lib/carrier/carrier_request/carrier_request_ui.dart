@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/carrier/carrier_request/request_detail.dart';
 import '../../../app_theme.dart';
 
 class CarrierRequestUI extends StatelessWidget {
@@ -87,10 +88,10 @@ class CarrierRequestUI extends StatelessWidget {
               final item = requestList[index];
               return InkWell(
                 onTap: () {
-                  /*Navigator.push(
+                  Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (_) => const RequestDetailPage()),
-                  );*/
+                    MaterialPageRoute(builder: (_) => const CarrierRequestDetailPage()),
+                  );
                 },
                 child: Container(
                   decoration: BoxDecoration(
