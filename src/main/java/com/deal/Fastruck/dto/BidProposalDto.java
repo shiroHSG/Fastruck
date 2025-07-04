@@ -16,6 +16,7 @@ public class BidProposalDto {
     private Long carrierId;
     private String carrierName;
     private Long proposedPrice;
+    private String expectedTime;
     private String message;
     private BidStatus status;
     private LocalDateTime createdAt;

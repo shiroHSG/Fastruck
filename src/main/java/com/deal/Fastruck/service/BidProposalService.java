@@ -41,6 +41,7 @@ public class BidProposalService {
                 .cargoRequest(cargoRequest)
                 .carrier(carrier)
                 .proposedPrice(dto.getProposedPrice())
+                .expectedTime(dto.getExpectedTime())
                 .message(dto.getMessage())
                 .status(BidStatus.PENDING)
                 .build();
@@ -100,6 +101,7 @@ public class BidProposalService {
                 .carrierId(entity.getCarrier().getId())
                 .carrierName(entity.getCarrier().getName())
                 .proposedPrice(entity.getProposedPrice())
+                .expectedTime(entity.getExpectedTime())
                 .message(entity.getMessage())
                 .status(entity.getStatus())
                 .createdAt(entity.getCreatedAt())
