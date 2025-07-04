@@ -26,7 +26,9 @@ public class CargoRequestService {
 
     // 생성
     @Transactional
-    public CargoRequestDto createCargoRequest(Member shipper, CargoRequestRequestDto dto) {
+    public CargoRequestDto createCargoRequest(Long id, CargoRequestRequestDto dto) {
+        Member shipper = memberRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("화물요청글 없음"));
 
         if (shipper.getRole() != SHIPPER) {
             throw new IllegalArgumentException("화물 요청은 화주 계정만 생성할 수 있습니다.");
