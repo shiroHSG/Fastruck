@@ -20,32 +20,33 @@ public class CargoRequestController {
 
     // 생성
     @PostMapping
-    public CargoRequestDto create(@RequestBody CargoRequestRequestDto dto, @AuthenticationPrincipal MemberDetails user) {
-        return cargoRequestService.createCargoRequest(user.getId(), dto);
+    public CargoRequestDto create(@RequestBody CargoRequestRequestDto dto,
+                                  @AuthenticationPrincipal Long userId) {
+        return cargoRequestService.createCargoRequest(userId, dto);
     }
 
     // 수정
     @PutMapping("/{id}")
-    public CargoRequestDto update(@PathVariable Long id, @RequestBody CargoRequestRequestDto dto, @AuthenticationPrincipal MemberDetails user) {
-        return cargoRequestService.updateCargoRequest(id, user.getId(), dto);
+    public CargoRequestDto update(@PathVariable Long id, @RequestBody CargoRequestRequestDto dto, @AuthenticationPrincipal Long userId) {
+        return cargoRequestService.updateCargoRequest(id, userId, dto);
     }
 
     // 삭제
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id, @AuthenticationPrincipal MemberDetails user) {
-        cargoRequestService.deleteCargoRequest(id, user.getId());
+    public void delete(@PathVariable Long id, @AuthenticationPrincipal Long userId) {
+        cargoRequestService.deleteCargoRequest(id, userId);
     }
 
     // 배정
     @PatchMapping("/{id}/assign")
-    public CargoRequestDto assign(@PathVariable Long id, @RequestBody CargoRequestAssignDto dto, @AuthenticationPrincipal MemberDetails user) {
-        return cargoRequestService.assignCarrier(id, dto.getCarrierId(), user.getId());
+    public CargoRequestDto assign(@PathVariable Long id, @RequestBody CargoRequestAssignDto dto, @AuthenticationPrincipal Long userId) {
+        return cargoRequestService.assignCarrier(id, dto.getCarrierId(), userId);
     }
 
     // 배송 완료
     @PatchMapping("/{id}/complete")
-    public CargoRequestDto complete(@PathVariable Long id, @AuthenticationPrincipal MemberDetails user) {
-        return cargoRequestService.completeDelivery(id, user.getId());
+    public CargoRequestDto complete(@PathVariable Long id, @AuthenticationPrincipal Long userId) {
+        return cargoRequestService.completeDelivery(id, userId);
     }
 
     // 전체 조회 or 조건 검색

@@ -80,4 +80,8 @@ public class ContractService {
         contract.setStatus(dto.getStatus());
     }
 
+    public void deleteContract(Long id, Member member) {
+    }
+
+
 }
