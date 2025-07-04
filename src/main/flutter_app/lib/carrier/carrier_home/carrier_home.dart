@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../app_theme.dart';
+import '../../profile/profile.dart';
 import '../../widgets/custom_app_bar.dart';
 import '../../widgets/custom_bottom_bar.dart';
 import '../carrier_request/carrier_request.dart';
@@ -29,7 +30,7 @@ class _CarrierHomePageState extends State<CarrierHomePage> {
     } else if (currentIndex == 3) {
       body = const Placeholder(); // 공지사항 등 필요 시 교체
     } else if (currentIndex == 4) {
-      body = const Placeholder(); // 프로필 페이지 구현 시 교체
+      body = const ProfilePage(); // 프로필 페이지 구현 시 교체
     } else {
       body = const Center(child: Text('아직 구현되지 않은 탭입니다.'));
     }

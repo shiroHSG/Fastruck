@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/shppier/shipper_profile/shipper_profile_ui.dart';
+import 'package:flutter_app/profile/shipper_profile_ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'carrier_profile_ui.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -41,11 +43,25 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return ProfilePageUI(
-      emailController: emailController,
-      nameController: nameController,
-      phoneController: phoneController,
-      selectedRole: selectedRole,
-    );
+    if (selectedRole == 'SHIPPER') {
+      return ShipperProfileUI(
+        emailController: emailController,
+        nameController: nameController,
+        phoneController: phoneController,
+        selectedRole: selectedRole,
+      );
+    } else if (selectedRole == 'CARRIER') {
+      return CarrierProfileUI(
+        emailController: emailController,
+        nameController: nameController,
+        phoneController: phoneController,
+        selectedRole: selectedRole,
+      );
+    } else {
+      // 로딩 중이거나 role 정보가 아직 없는 경우
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
   }
 }

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import '../../../app_theme.dart';
 
-class ProfilePageUI extends StatelessWidget {
+class ShipperProfileUI extends StatelessWidget {
   final TextEditingController emailController;
   final TextEditingController nameController;
   final TextEditingController phoneController;
   final String selectedRole;
 
-  const ProfilePageUI({
+  const ShipperProfileUI({
     super.key,
     required this.emailController,
     required this.nameController,
