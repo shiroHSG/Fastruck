@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import '../../../app_theme.dart';
+import 'bid_apply_dialog.dart';
 
-class CarrierRequestDetailPage extends StatelessWidget {
+class CarrierRequestDetailPage extends StatefulWidget {
   const CarrierRequestDetailPage({super.key});
 
-  // 샘플 입찰자 데이터
-  final List<Map<String, String>> bids = const [
+  @override
+  State<CarrierRequestDetailPage> createState() => _CarrierRequestDetailPageState();
+}
+
+class _CarrierRequestDetailPageState extends State<CarrierRequestDetailPage> {
+  // 입찰자 리스트 (상태 변경 가능하게)
+  List<Map<String, String>> bids = [
     {'name': '홍길동', 'price': '150,000원'},
     {'name': '김영희', 'price': '160,000원'},
   ];
@@ -47,10 +53,7 @@ class CarrierRequestDetailPage extends StatelessWidget {
             const SizedBox(height: 20),
 
             // 구분선
-            const Divider(
-              thickness: 1,
-              color: AppColors.primary,
-            ),
+            const Divider(thickness: 1, color: AppColors.primary),
             const SizedBox(height: 12),
 
             // 입찰 신청 현황 헤더
@@ -66,8 +69,20 @@ class CarrierRequestDetailPage extends StatelessWidget {
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: () {
-                    // 입찰 신청 로직 또는 페이지 이동
+                  onPressed: () async {
+                    final result = await showDialog(
+                      context: context,
+                      builder: (_) => const BidApplyDialog(),
+                    );
+
+                    if (result != null && result is Map<String, dynamic>) {
+                      setState(() {
+                        bids.add({
+                          'name': result['name'] ?? '',
+                          'price': result['price'] ?? '',
+                        });
+                      });
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary,
