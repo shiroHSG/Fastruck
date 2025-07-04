@@ -6,6 +6,7 @@ import com.deal.Fastruck.dto.MemberRequestDto;
 import com.deal.Fastruck.dto.MemberResponseDto;
 import com.deal.Fastruck.entity.Member;
 import com.deal.Fastruck.entity.enums.Role;
+import com.deal.Fastruck.exception.ResourceNotFoundException;
 import com.deal.Fastruck.repository.MemberRepository;
 import com.deal.Fastruck.util.JwtUtil;
 import jakarta.transaction.Transactional;
@@ -99,5 +100,26 @@ public class MemberService {
                 .createdAt(member.getCreatedAt())  // 🔄 변환
                 .updatedAt(member.getUpdatedAt())  // 🔄 변환
                 .build();
+    }
+
+    // 로그아웃
+    public void logout(Member member) {
+        // 로그 출력용
+        System.out.println("[Service] 로그아웃 요청 - member: " + member);
+        System.out.println("[Service] RefreshToken 제거 완료");
+
+        member.setRefreshToken(null);
+        memberRepository.save(member);
+    }
+
+    public MemberResponseDto getMemberbyId(Long memberId) {
+        Member member = validateMember(memberId);
+
+        return toDto(member);
+    }
+
+    public Member validateMember(Long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> new ResourceNotFoundException("회원 정보를 찾을 수 없습니다."));
     }
 }

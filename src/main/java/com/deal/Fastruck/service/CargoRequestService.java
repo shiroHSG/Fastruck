@@ -16,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.deal.Fastruck.entity.enums.Role.SHIPPER;
+
 @Service
 @RequiredArgsConstructor
 public class CargoRequestService {
@@ -24,9 +26,14 @@ public class CargoRequestService {
 
     // 생성
     @Transactional
-    public CargoRequestDto createCargoRequest(Long shipperId, CargoRequestRequestDto dto) {
-        Member shipper = memberRepository.findById(shipperId)
-                .orElseThrow(() -> new RuntimeException("회원 없음"));
+    public CargoRequestDto createCargoRequest(Long id, CargoRequestRequestDto dto) {
+        Member shipper = memberRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("화물요청글 없음"));
+
+        if (shipper.getRole() != SHIPPER) {
+            throw new IllegalArgumentException("화물 요청은 화주 계정만 생성할 수 있습니다.");
+        }
+
         CargoRequest entity = CargoRequest.builder()
                 .shipper(shipper)
                 .requestContent(dto.getRequestContent())

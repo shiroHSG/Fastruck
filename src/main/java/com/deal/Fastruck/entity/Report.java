@@ -21,21 +21,21 @@ public class Report {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false)
+    @JoinColumn(name = "contract_id", nullable = false)
     private Contract contract;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false)
+    @JoinColumn(name = "reporter_id", nullable = false)
     private Member reporter;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false)
+    @JoinColumn(name = "target_id", nullable = false)
     private Member target;
 
     @Column(nullable = false)
     private String reason;
 
-    @Column(columnDefinition = "TEXT")
+    @Lob
     private String description;
 
     @CreatedDate
