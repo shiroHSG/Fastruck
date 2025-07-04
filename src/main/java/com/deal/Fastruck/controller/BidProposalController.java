@@ -1,8 +1,10 @@
 package com.deal.Fastruck.controller;
 
+import com.deal.Fastruck.annotation.CurrentMember;
 import com.deal.Fastruck.dto.BidProposalDto;
 import com.deal.Fastruck.dto.BidProposalRequestDto;
 import com.deal.Fastruck.dto.BidProposalStatusUpdateDto;
+import com.deal.Fastruck.entity.Member;
 import com.deal.Fastruck.service.BidProposalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +21,8 @@ public class BidProposalController {
     // (1) 입찰 등록 (RequestDto로 받고, carrierId는 param으로 받음)
     @PostMapping
     public BidProposalDto submitBid(@RequestBody BidProposalRequestDto requestDto,
-                                    @RequestParam Long carrierId) {
-        return bidProposalService.submitBid(requestDto, carrierId);
+                                    @CurrentMember Member member) {
+        return bidProposalService.submitBid(requestDto, member);
     }
 
     // (2) 내 입찰 내역(차주 입장에서) - carrierId는 param(나중에 JWT에서 추출!)

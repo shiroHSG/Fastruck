@@ -17,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.deal.Fastruck.entity.enums.Role.CARRIER;
+
 @Service
 @RequiredArgsConstructor
 public class ReviewService {
@@ -77,5 +79,35 @@ public class ReviewService {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new EntityNotFoundException("리뷰를 찾을 수 없습니다."));
         return ReviewResponseDto.from(review);
+    }
+
+    /**
+     * 화주가 특정 운송인의 리뷰 목록을 조회
+     */
+    public List<ReviewResponseDto> getReviewsByCarrier(Long receiverId) {
+        Member receiver = memberRepository.findById(receiverId)
+                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 운송인입니다."));
+
+        if (receiver.getRole() != CARRIER) {
+            throw new IllegalArgumentException("운송인만 리뷰를 가질 수 있습니다.");
+        }
+
+        List<Review> reviews = reviewRepository.findByReceiver(receiver);
+
+        return reviews.stream()
+                .map(ReviewResponseDto::from)
+                .collect(Collectors.toList());
+    }
+
+
+    /**
+     * 관리자용 전체 리뷰 목록 조회
+     */
+    public List<ReviewResponseDto> getAllReviews() {
+        List<Review> reviews = reviewRepository.findAll();
+
+        return reviews.stream()
+                .map(ReviewResponseDto::from)
+                .collect(Collectors.toList());
     }
 }

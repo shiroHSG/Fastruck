@@ -31,9 +31,32 @@ public class ReviewController {
         return ResponseEntity.ok(Map.of("message", "리뷰 작성"));
     }
 
-    // 리뷰 조회
+    // 화주가 차주 리뷰 리스트 조회
+    @GetMapping("/carrier/{carrierId}")
+    public ResponseEntity<List<ReviewResponseDto>> getReviewsByCarrier(@PathVariable Long carrierId,
+                                                                       @CurrentMember Member member) {
+        List<ReviewResponseDto> reviews = reviewService.getReviewsByCarrier(carrierId);
+        return ResponseEntity.ok(reviews);
+    }
+
+    // 리뷰 상세조회
     @GetMapping("/{reviewId}")
-    public ResponseEntity<ReviewResponseDto> getReviewDetail(@PathVariable Long reviewId) {
+    public ResponseEntity<ReviewResponseDto> getReviewDetail(@PathVariable Long reviewId,
+                                                             @CurrentMember Member member) {
+        ReviewResponseDto dto = reviewService.getReviewDetail(reviewId);
+        return ResponseEntity.ok(dto);
+    }
+
+    // 전체 리뷰 목록 조회 (관리자 전용)
+    @GetMapping("/admin")
+    public ResponseEntity<List<ReviewResponseDto>> getAllReviews() {
+        List<ReviewResponseDto> reviews = reviewService.getAllReviews();
+        return ResponseEntity.ok(reviews);
+    }
+
+    // 리뷰 상세조회 admin용
+    @GetMapping("/admin/{reviewId}")
+    public ResponseEntity<ReviewResponseDto> getDetailReview(@PathVariable Long reviewId) {
         ReviewResponseDto dto = reviewService.getReviewDetail(reviewId);
         return ResponseEntity.ok(dto);
     }

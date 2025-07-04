@@ -1,8 +1,10 @@
 package com.deal.Fastruck.controller;
 
+import com.deal.Fastruck.annotation.CurrentMember;
 import com.deal.Fastruck.dto.CargoRequestAssignDto;
 import com.deal.Fastruck.dto.CargoRequestDto;
 import com.deal.Fastruck.dto.CargoRequestRequestDto;
+import com.deal.Fastruck.entity.Member;
 import com.deal.Fastruck.service.CargoRequestService;
 import com.deal.Fastruck.security.MemberDetails;
 import lombok.RequiredArgsConstructor;
@@ -20,8 +22,8 @@ public class CargoRequestController {
 
     // 생성
     @PostMapping
-    public CargoRequestDto create(@RequestBody CargoRequestRequestDto dto, @AuthenticationPrincipal MemberDetails user) {
-        return cargoRequestService.createCargoRequest(user.getId(), dto);
+    public CargoRequestDto create(@RequestBody CargoRequestRequestDto dto, @CurrentMember Member member) {
+        return cargoRequestService.createCargoRequest(member, dto);
     }
 
     // 수정

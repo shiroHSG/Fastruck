@@ -31,6 +31,8 @@ public class BidProposal {
     @Column(nullable = false)
     private Long proposedPrice;
 
+    private String expectedTime;
+
     @Column(length = 255)
     private String message; // 전달 메시지(선택)
 

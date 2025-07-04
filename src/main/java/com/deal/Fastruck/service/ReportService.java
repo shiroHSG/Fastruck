@@ -51,4 +51,23 @@ public class ReportService {
                 .map(ReportResponseDto::from)
                 .collect(Collectors.toList());
     }
+
+    /**
+     * 전체 신고 목록 조회 (관리자용)
+     */
+    public List<ReportResponseDto> getAllReports() {
+        List<Report> reports = reportRepository.findAll();
+        return reports.stream()
+                .map(ReportResponseDto::from)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * 신고 상세 조회
+     */
+    public ReportResponseDto getReportDetail(Long reportId) {
+        Report report = reportRepository.findById(reportId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 신고 내역을 찾을 수 없습니다."));
+        return ReportResponseDto.from(report);
+    }
 }

@@ -36,4 +36,18 @@ public class ReportController {
         List<ReportResponseDto> reports = reportService.getReportsByTarget(memberId);
         return ResponseEntity.ok(reports);
     }
+
+    // 전체 신고 목록 조회 (관리자 전용)
+    @GetMapping("/admin")
+    public ResponseEntity<List<ReportResponseDto>> getAllReports() {
+        List<ReportResponseDto> reports = reportService.getAllReports();
+        return ResponseEntity.ok(reports);
+    }
+
+    // 신고 상세 조회
+    @GetMapping("/{reportId}")
+    public ResponseEntity<ReportResponseDto> getReportDetail(@PathVariable Long reportId) {
+        ReportResponseDto dto = reportService.getReportDetail(reportId);
+        return ResponseEntity.ok(dto);
+    }
 }

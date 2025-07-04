@@ -7,6 +7,10 @@ public class SecurityConstants {
     public static final List<String> ALLOWED_URLS = List.of(
             "/api/member/login",
             "/api/member/register",
-            "/api/notices/admin"
+            "/api/notices/admin",
+            "/api/reviews/admin",
+            "/api/reports/member/{memberId}",
+            "/api/reports/admin",
+            "/api/reports/{reportsId}"
     );
 }
