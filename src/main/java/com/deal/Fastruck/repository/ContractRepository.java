@@ -5,8 +5,9 @@ import com.deal.Fastruck.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ContractRepository extends JpaRepository<Contract, Long> {
 
-    List<Contract> findByShipperOrCarrier(Member member, Member member1);
+    Optional<Contract> findByBidProposalId(Long bidProposalId);
 }

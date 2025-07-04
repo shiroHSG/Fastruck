@@ -1,12 +1,10 @@
 package com.deal.Fastruck.controller;
 
 import com.deal.Fastruck.annotation.CurrentMember;
-import com.deal.Fastruck.dto.LoginRequestDto;
-import com.deal.Fastruck.dto.LoginResponseDto;
-import com.deal.Fastruck.dto.MemberRequestDto;
-import com.deal.Fastruck.dto.MemberResponseDto;
+import com.deal.Fastruck.dto.*;
 import com.deal.Fastruck.entity.Member;
 import com.deal.Fastruck.service.MemberService;
+import com.deal.Fastruck.service.ReviewService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -29,6 +27,7 @@ import java.util.Set;
 public class MemberController {
 
     private final MemberService memberService;
+    private final ReviewService reviewService;
 
     @Autowired
     private Validator validator;
@@ -82,11 +81,49 @@ public class MemberController {
     }
 
     /**
-     * 내 정보 조회 (/me)
+     * 로그아웃
+     */
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(@CurrentMember Member member) {
+
+        // 로그 출력용
+        System.out.println("[Controller] 로그아웃 요청 - member: " + member);
+
+        memberService.logout(member);
+        return ResponseEntity.ok(Map.of("message", "로그아웃 완료"));
+    }
+
+    /**
+     * 내 정보 조회
      */
     @GetMapping
     public ResponseEntity<MemberResponseDto> getMe(@CurrentMember Member member) {
         MemberResponseDto responseDto = memberService.getMember(member);
         return ResponseEntity.ok(responseDto);
     }
+
+    /**
+     * ID로 회원 조회
+     */
+    @GetMapping("/users/{id}")
+    public ResponseEntity<MemberResponseDto> getById(@PathVariable Long id) {
+        MemberResponseDto responseDto = memberService.getMemberbyId(id);
+        return ResponseEntity.ok(responseDto);
+    }
+
+    // 내 리뷰 조회
+    @GetMapping("/me/reviews")
+    public ResponseEntity<List<ReviewResponseDto>> getMyReviews(@CurrentMember Member member) {
+        List<ReviewResponseDto> reviews = reviewService.getReviewsByWriter(member);
+        return ResponseEntity.ok(reviews);
+    }
+
+    // 특정 회원 리뷰 조회
+    @GetMapping("/{memberId}/reviews")
+    public ResponseEntity<List<ReviewResponseDto>> getReviewsAboutMember(@PathVariable Long memberId) {
+        List<ReviewResponseDto> reviews = reviewService.getReviewsForMember(memberId);
+        return ResponseEntity.ok(reviews);
+    }
+
+
 }
