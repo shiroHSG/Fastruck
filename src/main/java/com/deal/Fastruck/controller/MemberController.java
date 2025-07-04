@@ -102,6 +102,15 @@ public class MemberController {
         return ResponseEntity.ok(responseDto);
     }
 
+    /**
+     * ID로 회원 조회
+     */
+    @GetMapping("/users/{id}")
+    public ResponseEntity<MemberResponseDto> getById(@PathVariable Long id) {
+        MemberResponseDto responseDto = memberService.getMemberbyId(id);
+        return ResponseEntity.ok(responseDto);
+    }
+
     // 내 리뷰 조회
     @GetMapping("/me/reviews")
     public ResponseEntity<List<ReviewResponseDto>> getMyReviews(@CurrentMember Member member) {

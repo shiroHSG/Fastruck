@@ -30,7 +30,7 @@ public class ReportController {
         return ResponseEntity.ok(Map.of("message", "신고가 접수되었습니다."));
     }
 
-    // 특정 멤버가 받은 신고 내역 조회
+    // 특정 멤버가 받은 신고 내역 조회 (관리자 전용)
     @GetMapping("/member/{memberId}")
     public ResponseEntity<List<ReportResponseDto>> getReportsByTarget(@PathVariable Long memberId) {
         List<ReportResponseDto> reports = reportService.getReportsByTarget(memberId);
@@ -44,7 +44,7 @@ public class ReportController {
         return ResponseEntity.ok(reports);
     }
 
-    // 신고 상세 조회
+    // 신고 상세 조회 (관리자 전용)
     @GetMapping("/{reportId}")
     public ResponseEntity<ReportResponseDto> getReportDetail(@PathVariable Long reportId) {
         ReportResponseDto dto = reportService.getReportDetail(reportId);

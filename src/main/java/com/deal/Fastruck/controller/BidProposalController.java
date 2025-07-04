@@ -7,6 +7,7 @@ import com.deal.Fastruck.dto.BidProposalStatusUpdateDto;
 import com.deal.Fastruck.entity.Member;
 import com.deal.Fastruck.service.BidProposalService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
