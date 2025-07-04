@@ -9,6 +9,7 @@ import 'login/login.dart';
 const String baseUrl = 'http://10.0.2.2:8080';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => const LoginPage(),
         '/shipper_home': (context) => const ShipperHomePage(),
         '/shipper_review': (context) => const ShipperReviewPage(),
-        '/carrier-home': (context) => const CarrierHomePage(),
+        '/carrier_home': (context) => const CarrierHomePage(),
       },
       debugShowCheckedModeBanner: false,
     );
