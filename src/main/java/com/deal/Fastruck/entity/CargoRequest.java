@@ -29,6 +29,11 @@ public class CargoRequest {
     @JoinColumn(name = "shipper_id", nullable = false)
     private Member shipper;
 
+    // 배정된 운송기사 (null 가능)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "carrier_id")
+    private Member carrier;
+
     // 요구사항
     @Lob
     private String requestContent;

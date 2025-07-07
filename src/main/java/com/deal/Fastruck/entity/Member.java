@@ -46,6 +46,9 @@ public class Member {
 
     private String imageUrl;
 
+    @Column(length = 255)
+    private String refreshToken;
+
     @Builder.Default
     @OneToMany(mappedBy = "shipper", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CargoRequest> requests = new ArrayList<>();

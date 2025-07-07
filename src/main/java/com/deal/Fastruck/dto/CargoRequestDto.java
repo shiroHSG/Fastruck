@@ -25,4 +25,7 @@ public class CargoRequestDto {
     private LocalDateTime updatedAt;
     private String shipperName;
     private String shipperPhone;
+    private String carrierName;   // 배정된 기사 이름
+    private String carrierPhone;  // 배정된 기사 연락처
+    private String expectedTime;
 }

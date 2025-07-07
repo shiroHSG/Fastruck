@@ -16,6 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.deal.Fastruck.entity.enums.Role.CARRIER;
+import static com.deal.Fastruck.entity.enums.Role.SHIPPER;
+
 @Service
 @RequiredArgsConstructor
 public class BidProposalService {
@@ -26,21 +29,25 @@ public class BidProposalService {
 
     // 1. 입찰 등록
     @Transactional
-    public BidProposalDto submitBid(BidProposalRequestDto dto, Long carrierId) {
+    public BidProposalDto submitBid(BidProposalRequestDto dto, Member carrier) {
         // 중복 입찰 방지 (한 차주가 한 글에 여러번 입찰 금지)
-        if (bidProposalRepository.existsByCargoRequest_IdAndCarrier_Id(dto.getCargoRequestId(), carrierId)) {
-            throw new RuntimeException("이미 해당 화물요청에 입찰하셨습니다.");
+
+        if (carrier.getRole() != CARRIER) {
+            throw new IllegalArgumentException("입찰은 입찰 계정정만 생성할 수 있습니다.");
         }
 
         CargoRequest cargoRequest = cargoRequestRepository.findById(dto.getCargoRequestId())
                 .orElseThrow(() -> new RuntimeException("화물요청글이 존재하지 않습니다."));
-        Member carrier = memberRepository.findById(carrierId)
-                .orElseThrow(() -> new RuntimeException("차주 정보가 없습니다."));
+
+        if (bidProposalRepository.existsByCargoRequest_IdAndCarrier_Id(dto.getCargoRequestId(), carrier.getId())) {
+            throw new RuntimeException("이미 해당 화물요청에 입찰하셨습니다.");
+        }
 
         BidProposal bid = BidProposal.builder()
                 .cargoRequest(cargoRequest)
                 .carrier(carrier)
                 .proposedPrice(dto.getProposedPrice())
+                .expectedTime(dto.getExpectedTime())
                 .message(dto.getMessage())
                 .status(BidStatus.PENDING)
                 .build();
@@ -100,6 +107,7 @@ public class BidProposalService {
                 .carrierId(entity.getCarrier().getId())
                 .carrierName(entity.getCarrier().getName())
                 .proposedPrice(entity.getProposedPrice())
+                .expectedTime(entity.getExpectedTime())
                 .message(entity.getMessage())
                 .status(entity.getStatus())
                 .createdAt(entity.getCreatedAt())

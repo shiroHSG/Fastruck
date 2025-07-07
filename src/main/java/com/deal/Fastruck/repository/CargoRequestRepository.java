@@ -19,4 +19,6 @@ public interface CargoRequestRepository extends JpaRepository<CargoRequest, Long
     List<CargoRequest> findByShipper_Id(Long shipperId);
 
     // (확장) 여러 필터를 동적쿼리로 하고 싶으면 QueryDSL/Specification 사용 가능
+
+    List<CargoRequest> findByCarrier_Id(Long carrierId); // (carrier 검색 추가)
 }
