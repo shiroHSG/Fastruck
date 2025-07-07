@@ -1,58 +1,38 @@
 'use client';
 import PageContainer from '../components/container/PageContainer';
 import DashboardCard from '../components/shared/DashboardCard';
-import { Typography, Link, Box, Divider } from '@mui/material';
-import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
-import SyntaxHighlighter from "react-syntax-highlighter";
+import { Typography, Link, Divider } from '@mui/material';
+import { Light as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { atomOneDark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+
 
 const Icons = () => {
   return (
     <PageContainer title="Icons" description="this is Icons">
-
       <DashboardCard title="Icons">
-
-        <Typography variant="h6" gutterBottom>
-          🔍 Explore Icons
-        </Typography>
-        <Typography variant="body1" gutterBottom>
-          Browse and search for icons directly on the{' '}
+        <Typography variant="h6" gutterBottom>🔍 Explore Icons</Typography>
+        <Typography variant="body1">
+          Visit{' '}
           <Link
             href="https://tabler-icons.io/"
             target="_blank"
             rel="noopener noreferrer"
-            underline="hover"
-            color="primary"
           >
             Tabler Icons website
-          </Link>.
+          </Link>
         </Typography>
 
         <Divider sx={{ my: 3 }} />
-
-        <Typography variant="h6" gutterBottom>
-          ⚙️ Installation
-        </Typography>
-
-
-        <Typography variant="body1" gutterBottom>
-          To use Tabler icons in your project, install the official React package:
-        </Typography>
-        <SyntaxHighlighter language="typescript" style={docco}>
-          {` npm install @tabler/icons-react `}
+        <Typography variant="h6" gutterBottom>⚙️ Installation</Typography>
+        <SyntaxHighlighter language="bash" style={atomOneDark}>
+          npm install @tabler/icons-react
         </SyntaxHighlighter>
 
-
         <Divider sx={{ my: 3 }} />
+        <Typography variant="h6" gutterBottom>🧩 Usage Example</Typography>
+        <SyntaxHighlighter language="jsx" style={atomOneDark}>
+{`import { IconHome } from '@tabler/icons-react';
 
-        <Typography variant="h6" gutterBottom>
-          🧩 Usage Example
-        </Typography>
-
-        <Typography variant="body1" gutterBottom>
-          Import and use any icon in your components:
-        </Typography>
-        <SyntaxHighlighter language="typescript" style={docco}>
-          {`import { IconHome } from '@tabler/icons-react';
 function MyComponent() {
   return <IconHome />;
 }`}

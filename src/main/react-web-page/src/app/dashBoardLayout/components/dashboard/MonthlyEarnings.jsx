@@ -1,7 +1,7 @@
 import React from 'react';
 import Chart from 'react-apexcharts';
 import { useTheme } from '@mui/material/styles';
-import { Stack, Typography, Avatar, Fab } from '@mui/material';
+import { Stack, Typography, Avatar, Fab, Box } from '@mui/material';
 import { IconArrowDownRight, IconCurrencyDollar } from '@tabler/icons-react';
 import DashboardCard from '../../components/shared/DashboardCard';
 
@@ -51,38 +51,41 @@ const MonthlyEarnings = () => {
   ];
 
   return (
-    <DashboardCard
-      title="Monthly Earnings"
-      action={
-        <Fab color="secondary" size="medium" sx={{ color: '#ffffff' }}>
-          <IconCurrencyDollar width={24} />
-        </Fab>
-      }
-      footer={
-        <Chart
-          options={optionscolumnchart}
-          series={seriescolumnchart}
-          type="area"
-          height={60}
-          width="100%"
-        />
-      }
-    >
-      <Typography variant="h3" fontWeight="700" mt="-20px">
-        $6,820
-      </Typography>
-      <Stack direction="row" spacing={1} my={1} alignItems="center">
-        <Avatar sx={{ bgcolor: errorlight, width: 27, height: 27 }}>
-          <IconArrowDownRight width={20} color="#FA896B" />
-        </Avatar>
-        <Typography variant="subtitle2" fontWeight="600">
-          +9%
-        </Typography>
-        <Typography variant="subtitle2" color="textSecondary">
-          last year
-        </Typography>
-      </Stack>
-    </DashboardCard>
+<DashboardCard
+  title="Monthly Earnings"
+  action={
+    <Fab color="secondary" size="medium" sx={{ color: '#ffffff' }}>
+      <IconCurrencyDollar width={24} />
+    </Fab>
+  }
+  footer={
+    <Box sx={{ width: '100%', height: 120 }}>
+      <Chart
+        options={optionscolumnchart}
+        series={seriescolumnchart}
+        type="area"
+        height="100%"
+        width="100%"
+      />
+    </Box>
+  }
+>
+  <Typography variant="h3" fontWeight="700" mt={0}>
+    $6,820
+  </Typography>
+  <Stack direction="row" spacing={1} my={1} alignItems="center">
+    <Avatar sx={{ bgcolor: errorlight, width: 27, height: 27 }}>
+      <IconArrowDownRight width={20} color="#FA896B" />
+    </Avatar>
+    <Typography variant="subtitle2" fontWeight="600">
+      +9%
+    </Typography>
+    <Typography variant="subtitle2" color="textSecondary">
+      last year
+    </Typography>
+  </Stack>
+</DashboardCard>
+
   );
 };
 

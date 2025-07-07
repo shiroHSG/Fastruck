@@ -27,11 +27,27 @@ const ToolbarStyled = styled(Toolbar)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-function Header({ toggleMobileSidebar }) {
+function Header({ toggleSidebar, toggleMobileSidebar }) {
   return (
     <AppBarStyled position="sticky" color="default">
       <ToolbarStyled>
-        {/* 햄버거 버튼 (모바일용) */}
+
+        {/* ✅ 데스크탑용 토글 버튼 */}
+        <IconButton
+          color="inherit"
+          aria-label="toggle sidebar"
+          onClick={toggleSidebar}
+          sx={{
+            display: {
+              lg: 'inline-flex',
+              xs: 'none',
+            },
+          }}
+        >
+          <IconMenu width="20" height="20" />
+        </IconButton>
+
+        {/* ✅ 모바일용 햄버거 메뉴 */}
         <IconButton
           color="inherit"
           aria-label="menu"

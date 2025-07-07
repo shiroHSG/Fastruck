@@ -30,13 +30,11 @@ function DashboardLayout({ children }) {
         onSidebarClose={() => setMobileSidebarOpen(false)}
       />
       <PageWrapper className="page-wrapper">
-        <Header toggleMobileSidebar={() => setMobileSidebarOpen(true)} />
-        <Container
-          sx={{
-            paddingTop: "20px",
-            maxWidth: "1200px",
-          }}
-        >
+        <Header
+          toggleSidebar={() => setSidebarOpen(prev => !prev)} // ✅ 데스크탑 토글
+          toggleMobileSidebar={() => setMobileSidebarOpen(true)} // 모바일 토글
+        />
+        <Container sx={{ paddingTop: "20px", maxWidth: "1200px" }}>
           <Box sx={{ minHeight: "calc(100vh - 170px)" }}>{children}</Box>
         </Container>
       </PageWrapper>

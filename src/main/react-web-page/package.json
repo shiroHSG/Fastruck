@@ -24,6 +24,8 @@
     "react-mui-sidebar": "^1.6.3",
     "react-router-dom": "^7.6.3",
     "react-scripts": "5.0.1",
+    "react-syntax-highlighter": "^15.6.1",
+    "recharts": "^3.0.2",
     "typescript": "^5.8.3",
     "web-vitals": "^2.1.4"
   },

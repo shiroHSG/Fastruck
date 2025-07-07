@@ -18,6 +18,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -121,5 +124,37 @@ public class MemberService {
     public Member validateMember(Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new ResourceNotFoundException("회원 정보를 찾을 수 없습니다."));
+    }
+
+    public List<MemberResponseDto> getAllMembers() {
+        return memberRepository.findAll().stream()
+                .map(this::toDto)
+                .toList();
+    }
+
+    // 멤버 계정 권한 변경
+    @Transactional
+    public void updateMemberRole(Long memberId, Role newRole) {
+        Member member = validateMember(memberId);
+        member.setRole(newRole);
+        memberRepository.save(member);
+    }
+
+    public Map<String, Object> getUserStatsByYear(int year) {
+        long shipperCount = memberRepository.countByRoleAndYear(Role.SHIPPER, year);
+        long carrierCount = memberRepository.countByRoleAndYear(Role.CARRIER, year);
+        long total = shipperCount + carrierCount;
+
+        long lastYearTotal = memberRepository.countByRoleAndYear(Role.SHIPPER, year - 1)
+                + memberRepository.countByRoleAndYear(Role.CARRIER, year - 1);
+        double growth = lastYearTotal > 0 ? ((double)(total - lastYearTotal) / lastYearTotal) * 100 : 0;
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("year", year);
+        result.put("shipper", shipperCount);
+        result.put("carrier", carrierCount);
+        result.put("total", total);
+        result.put("growthRate", growth);
+        return result;
     }
 }

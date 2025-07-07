@@ -1,120 +1,106 @@
-import React from 'react';
-import Chart from 'react-apexcharts';
-import { useTheme } from '@mui/material/styles';
+import React, { useEffect, useState } from 'react';
 import {
-  Grid,
-  Stack,
   Typography,
+  Stack,
   Avatar,
+  Select,
+  MenuItem,
+  Box,
 } from '@mui/material';
-import { IconArrowUpLeft } from '@tabler/icons-react';
-
-import DashboardCard from '../shared/DashboardCard';
+import { IconArrowUpRight, IconArrowDownRight } from '@tabler/icons-react';
+import DashboardCard from '../../components/shared/DashboardCard';
+import PieChart from './PieChart';
+import axios from 'axios';
 
 const YearlyBreakup = () => {
-  const theme = useTheme();
-  const primary = theme.palette.primary.main;
-  const primarylight = '#ecf2ff';
-  const successlight = theme.palette.success.light;
+  const currentYear = new Date().getFullYear();
+  const [selectedYear, setSelectedYear] = useState(currentYear);
+  const [data, setData] = useState({
+    shipper: 0,
+    carrier: 0,
+    total: 0,
+    growthRate: 0,
+  });
 
-  const optionscolumnchart = {
-    chart: {
-      type: 'donut',
-      fontFamily: "'Plus Jakarta Sans', sans-serif;",
-      foreColor: '#adb0bb',
-      toolbar: {
-        show: false,
-      },
-      height: 155,
-    },
-    colors: [primary, primarylight, '#F9F9FD'],
-    plotOptions: {
-      pie: {
-        startAngle: 0,
-        endAngle: 360,
-        donut: {
-          size: '75%',
-          background: 'transparent',
-        },
-      },
-    },
-    tooltip: {
-      theme: theme.palette.mode === 'dark' ? 'dark' : 'light',
-      fillSeriesColor: false,
-    },
-    stroke: {
-      show: false,
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    legend: {
-      show: false,
-    },
-    responsive: [
-      {
-        breakpoint: 991,
-        options: {
-          chart: {
-            width: 120,
-          },
-        },
-      },
-    ],
+  const fetchData = async (year) => {
+    try {
+      const res = await axios.get(
+        `http://localhost:8080/api/member/count/by-year?year=${year}`
+      );
+      setData(res.data);
+    } catch (error) {
+      console.error('데이터 요청 실패:', error);
+    }
   };
 
-  const seriescolumnchart = [38, 40, 25];
+  useEffect(() => {
+    fetchData(selectedYear);
+  }, [selectedYear]);
+
+  const isPositive = data.growthRate >= 0;
 
   return (
-    <DashboardCard title="Yearly Breakup">
-      <Grid container spacing={3}>
-        {/* Column 1 */}
-        <Grid item xs={7} sm={7}>
-          <Typography variant="h3" fontWeight="700">
-            $36,358
-          </Typography>
-          <Stack direction="row" spacing={1} mt={1} alignItems="center">
-            <Avatar sx={{ bgcolor: successlight, width: 27, height: 27 }}>
-              <IconArrowUpLeft width={20} color="#39B69A" />
-            </Avatar>
-            <Typography variant="subtitle2" fontWeight="600">
-              +9%
-            </Typography>
-            <Typography variant="subtitle2" color="textSecondary">
-              last year
-            </Typography>
-          </Stack>
-          <Stack spacing={3} mt={5} direction="row">
-            <Stack direction="row" spacing={1} alignItems="center">
-              <Avatar
-                sx={{ width: 9, height: 9, bgcolor: primary }}
-              />
-              <Typography variant="subtitle2" color="textSecondary">
-                2024
-              </Typography>
-            </Stack>
-            <Stack direction="row" spacing={1} alignItems="center">
-              <Avatar
-                sx={{ width: 9, height: 9, bgcolor: primarylight }}
-              />
-              <Typography variant="subtitle2" color="textSecondary">
-                2025
-              </Typography>
-            </Stack>
-          </Stack>
-        </Grid>
-
-        {/* Column 2 */}
-        <Grid item xs={5} sm={5}>
-          <Chart
-            options={optionscolumnchart}
-            series={seriescolumnchart}
-            type="donut"
-            height={150}
-            width="100%"
+    <DashboardCard
+      title="사용자"
+      action={
+        <Select
+          value={selectedYear}
+          onChange={(e) => setSelectedYear(e.target.value)}
+          size="small"
+        >
+          {[...Array(5)].map((_, i) => {
+            const year = currentYear - i;
+            return (
+              <MenuItem key={year} value={year}>
+                {year}년
+              </MenuItem>
+            );
+          })}
+        </Select>
+      }
+      footer={
+        <Box sx={{ width: '100%', height: 120 }}>
+          <PieChart
+            data={[
+              { name: 'SHIPPER', value: data.shipper },
+              { name: 'CARRIER', value: data.carrier },
+            ]}
           />
-        </Grid>
-      </Grid>
+        </Box>
+      }
+    >
+      <Typography variant="h3" fontWeight="700" mt={0}>
+        {data.total.toLocaleString()}명
+      </Typography>
+
+      <Stack direction="row" spacing={1} my={1} alignItems="center">
+        <Avatar
+          sx={{
+            bgcolor: isPositive ? '#E6FFFA' : '#FFE6E6',
+            width: 27,
+            height: 27,
+          }}
+        >
+          {isPositive ? (
+            <IconArrowUpRight width={20} color="#13DEB9" />
+          ) : (
+            <IconArrowDownRight width={20} color="#FA896B" />
+          )}
+        </Avatar>
+
+        <Typography
+          variant="subtitle2"
+          fontWeight="600"
+          color={isPositive ? '#13DEB9' : '#FA896B'}
+        >
+          {isPositive ? '+' : ''}
+          {data.growthRate.toFixed(1)}%
+        </Typography>
+
+        <Typography variant="subtitle2" color="textSecondary">
+          작년 대비
+        </Typography>
+      </Stack>
     </DashboardCard>
   );
 };

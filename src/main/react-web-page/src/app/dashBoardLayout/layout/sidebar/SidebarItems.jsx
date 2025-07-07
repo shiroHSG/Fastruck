@@ -36,15 +36,15 @@ const renderMenuItems = (items, currentPath) => {
 
     return (
       <Box px={3} key={item.id}>
-        <MenuItem
-          isSelected={currentPath === item.href}
-          borderRadius="8px"
-          icon={itemIcon}
-          component={Link}
-          to={item.href}
-        >
-          {item.title}
-        </MenuItem>
+        <Link to={item.href} style={{ textDecoration: 'none', color: 'inherit' }}>
+          <MenuItem
+            isSelected={currentPath === item.href}
+            borderRadius="8px"
+            icon={itemIcon}
+          >
+            {item.title}
+          </MenuItem>
+        </Link>
       </Box>
     );
   });

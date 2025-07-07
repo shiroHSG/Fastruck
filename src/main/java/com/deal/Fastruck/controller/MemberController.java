@@ -3,6 +3,8 @@ package com.deal.Fastruck.controller;
 import com.deal.Fastruck.annotation.CurrentMember;
 import com.deal.Fastruck.dto.*;
 import com.deal.Fastruck.entity.Member;
+import com.deal.Fastruck.entity.enums.Role;
+import com.deal.Fastruck.repository.MemberRepository;
 import com.deal.Fastruck.service.MemberService;
 import com.deal.Fastruck.service.ReviewService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -125,5 +128,22 @@ public class MemberController {
         return ResponseEntity.ok(reviews);
     }
 
+    // 전체 회원 조회 (관리자 전용)
+    @GetMapping("/all")
+    public ResponseEntity<List<MemberResponseDto>> getAllMembers() {
+        List<MemberResponseDto> members = memberService.getAllMembers();
+        return ResponseEntity.ok(members);
+    }
 
+    // 권한(Role) 변경 (관리자 전용)
+    @PutMapping("/{id}/role")
+    public ResponseEntity<?> updateRole(@PathVariable Long id, @RequestBody RoleUpdateRequestDto dto) {
+        memberService.updateMemberRole(id, dto.getNewRole());
+        return ResponseEntity.ok(Map.of("message", "권한이 성공적으로 변경되었습니다."));
+    }
+
+    @GetMapping("/count/by-year")
+    public ResponseEntity<?> getUserStatsByYear(@RequestParam int year) {
+        return ResponseEntity.ok(memberService.getUserStatsByYear(year));
+    }
 }

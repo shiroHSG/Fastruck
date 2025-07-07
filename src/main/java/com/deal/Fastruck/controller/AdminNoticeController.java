@@ -40,4 +40,5 @@ public class AdminNoticeController {
                 .toList();
         return ResponseEntity.ok(response);
     }
+
 }

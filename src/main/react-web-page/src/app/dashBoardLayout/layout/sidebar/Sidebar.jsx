@@ -3,7 +3,7 @@ import SidebarItems from "./SidebarItems";
 
 function Sidebar({ isMobileSidebarOpen, onSidebarClose, isSidebarOpen }) {
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"));
-  const sidebarWidth = "270px";
+  const sidebarWidth = isSidebarOpen ? "270px" : "0px"; 
 
   const scrollbarStyles = {
     '&::-webkit-scrollbar': {
@@ -27,7 +27,7 @@ function Sidebar({ isMobileSidebarOpen, onSidebarClose, isSidebarOpen }) {
         <Drawer
           anchor="left"
           open={isSidebarOpen}
-          variant="permanent"
+          variant="persistent"
           slotProps={{
             paper: {
               sx: {

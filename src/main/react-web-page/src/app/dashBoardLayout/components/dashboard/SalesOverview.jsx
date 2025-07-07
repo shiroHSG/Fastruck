@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Select, MenuItem } from '@mui/material';
+import { Select, MenuItem, Box } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import Chart from 'react-apexcharts'; // CRA에서는 dynamic import 불필요
 
@@ -85,30 +85,38 @@ const SalesOverview = () => {
   ];
 
   return (
-    <DashboardCard
-      title="Sales Overview"
-      action={
-        <Select
-          labelId="month-dd"
-          id="month-dd"
-          value={month}
-          size="small"
-          onChange={handleChange}
-        >
-          <MenuItem value={1}>March 2025</MenuItem>
-          <MenuItem value={2}>April 2025</MenuItem>
-          <MenuItem value={3}>May 2025</MenuItem>
-        </Select>
-      }
+<DashboardCard
+  title="Sales Overview"
+  action={
+    <Select
+      labelId="month-dd"
+      id="month-dd"
+      value={month}
+      size="small"
+      onChange={handleChange}
     >
-      <Chart
-        options={optionscolumnchart}
-        series={seriescolumnchart}
-        type="bar"
-        height={370}
-        width="100%"
-      />
-    </DashboardCard>
+      <MenuItem value={1}>March 2025</MenuItem>
+      <MenuItem value={2}>April 2025</MenuItem>
+      <MenuItem value={3}>May 2025</MenuItem>
+    </Select>
+  }
+>
+  <Box sx={{ width: '100%', height: { xs: 300, md: 400, lg: 450 } }}>
+    <Chart
+      options={{
+        ...optionscolumnchart,
+        chart: {
+          ...optionscolumnchart.chart,
+          height: '100%', // Apex 내부에서도 반응형
+        },
+      }}
+      series={seriescolumnchart}
+      type="bar"
+      height="100%"
+      width="100%"
+    />
+  </Box>
+</DashboardCard>
   );
 };
 

@@ -1,77 +1,97 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Typography,
-  FormGroup,
-  FormControlLabel,
   Button,
   Stack,
-  Checkbox,
 } from "@mui/material";
-import { Link } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 import CustomTextField from '../../dashBoardLayout/components/forms/theme-elements/CustomTextField';
+import { login } from '../../../api/authApi';
 
-const AuthLogin = ({ title, subtitle, subtext }) => (
-  <>
-    {title && (
-      <Typography fontWeight="700" variant="h2" mb={1}>
-        {title}
-      </Typography>
-    )}
+const AuthLogin = ({ title, subtitle, subtext }) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
-    {subtext}
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await login(email, password);
+      localStorage.setItem('accessToken', res.accessToken);
+      localStorage.setItem('refreshToken', res.refreshToken);
+      console.log('로그인 성공:', res);
+      navigate('/dashboard');
+    } catch (err) {
+      alert(`로그인 실패: ${err}`);
+    }
+  };
 
-    <Stack>
-      <Box>
-        <Typography
-          variant="subtitle1"
-          fontWeight={600}
-          component="label"
-          htmlFor="username"
-          mb="5px"
-        >
-          Username
+  return (
+    <form onSubmit={handleLogin}>
+      {title && (
+        <Typography fontWeight="700" variant="h2" mb={1}>
+          {title}
         </Typography>
-        <CustomTextField variant="outlined" fullWidth />
-      </Box>
-      <Box mt="25px">
-        <Typography
-          variant="subtitle1"
-          fontWeight={600}
-          component="label"
-          htmlFor="password"
-          mb="5px"
-        >
-          Password
-        </Typography>
-        <CustomTextField type="password" variant="outlined" fullWidth />
-      </Box>
-      <Stack
-        justifyContent="space-between"
-        direction="row"
-        alignItems="center"
-        my={2}
-      >
+      )}
+      {subtext}
+
+      <Stack spacing={3}>
+        <Box>
+          <Typography
+            variant="subtitle1"
+            fontWeight={600}
+            component="label"
+            htmlFor="email"
+            mb="5px"
+          >
+            Email
+          </Typography>
+          <CustomTextField
+            id="email"
+            variant="outlined"
+            fullWidth
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </Box>
+
+        <Box>
+          <Typography
+            variant="subtitle1"
+            fontWeight={600}
+            component="label"
+            htmlFor="password"
+            mb="5px"
+          >
+            Password
+          </Typography>
+          <CustomTextField
+            id="password"
+            type="password"
+            variant="outlined"
+            fullWidth
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </Box>
+
+        <Box>
+          <Button
+            color="primary"
+            variant="contained"
+            size="large"
+            fullWidth
+            type="submit"
+          >
+            Sign In
+          </Button>
+        </Box>
       </Stack>
-    </Stack>
 
-    <Box>
-      <Button
-        color="primary"
-        variant="contained"
-        size="large"
-        fullWidth
-        component={Link}
-        to="/dashboard"
-        type="submit"
-      >
-        Sign In
-      </Button>
-    </Box>
-
-    {subtitle}
-  </>
-);
+      {subtitle}
+    </form>
+  );
+};
 
 export default AuthLogin;
