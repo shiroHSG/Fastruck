@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import { IconArrowUpRight, IconArrowDownRight } from '@tabler/icons-react';
 import DashboardCard from '../../components/shared/DashboardCard';
-import PieChart from './PieChart';
+import PieChart from '../shared/PieChart';
 import axios from 'axios';
 
 const YearlyBreakup = () => {
@@ -77,14 +77,14 @@ const YearlyBreakup = () => {
         <Avatar
           sx={{
             bgcolor: isPositive ? '#E6FFFA' : '#FFE6E6',
-            width: 27,
-            height: 27,
+            width: 18,
+            height: 18,
           }}
         >
           {isPositive ? (
-            <IconArrowUpRight width={20} color="#13DEB9" />
+            <IconArrowUpRight width={12} color="#13DEB9" />
           ) : (
-            <IconArrowDownRight width={20} color="#FA896B" />
+            <IconArrowDownRight width={12} color="#FA896B" />
           )}
         </Avatar>
 

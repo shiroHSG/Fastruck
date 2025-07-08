@@ -23,9 +23,25 @@ const Menuitems = [
     icon: IconLayoutDashboard,
     href: "/dashboard",
   },
+    {
+    navlabel: true,
+    subheader: " 사용자 관리",
+  },
+  {
+    id: uniqueId(),
+    title: "사용자 역할 변경",
+    icon: IconUsers,
+    href: "/authentication/Role",
+  },
+  {
+    id: uniqueId(),
+    title: "사용자 생성",
+    icon: IconUserPlus,
+    href: "/authentication/register",
+  },
   {
     navlabel: true,
-    subheader: "UTILITIES",
+    subheader: " 계약 진행 현황",
   },
   {
     id: uniqueId(),
@@ -41,29 +57,7 @@ const Menuitems = [
   },
   {
     navlabel: true,
-    subheader: "AUTH",
-  },
-    {
-    id: uniqueId(),
-    title: "Role",
-    icon: IconUsers,
-    href: "/authentication/Role",
-  },
-  {
-    id: uniqueId(),
-    title: "Login",
-    icon: IconLogin,
-    href: "/authentication/login",
-  },
-  {
-    id: uniqueId(),
-    title: "Register",
-    icon: IconUserPlus,
-    href: "/authentication/register",
-  },
-  {
-    navlabel: true,
-    subheader: " EXTRA",
+    subheader: " 신고 & 평가 관리",
   },
   {
     id: uniqueId(),

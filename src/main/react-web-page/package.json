@@ -5,6 +5,7 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^7.2.0",
     "@mui/lab": "^7.0.0-beta.14",
     "@mui/material": "^7.2.0",
     "@tabler/icons-react": "^3.34.0",
@@ -21,6 +22,7 @@
     "react": "^19.1.0",
     "react-apexcharts": "^1.7.0",
     "react-dom": "^19.1.0",
+    "react-helmet": "^6.1.0",
     "react-mui-sidebar": "^1.6.3",
     "react-router-dom": "^7.6.3",
     "react-scripts": "5.0.1",

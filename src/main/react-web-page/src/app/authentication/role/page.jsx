@@ -3,12 +3,14 @@ import axios from '../../../api/axiosInstance';
 import React, { useEffect, useState } from 'react';
 import {
   Box, Typography, Table, TableBody, TableCell, TableContainer,
-  TableHead, TableRow, Paper, Pagination, Button
+  TableHead, TableRow, Paper, Pagination, Button, TextField, InputAdornment
 } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 import ChangeRoleModal from './modal';
 
 const roles = ['SHIPPER', 'CARRIER', 'ADMIN'];
 const ITEMS_PER_PAGE = 10;
+
 const formatDate = (value) => {
   const date = new Date(value);
   return isNaN(date) ? '-' : date.toISOString().substring(0, 10);
@@ -16,15 +18,17 @@ const formatDate = (value) => {
 
 const MemberListPage = () => {
   const [members, setMembers] = useState([]);
+  const [filteredMembers, setFilteredMembers] = useState([]);
   const [selectedMember, setSelectedMember] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   const [pageByRole, setPageByRole] = useState({ SHIPPER: 1, CARRIER: 1, ADMIN: 1 });
+  const [searchKeyword, setSearchKeyword] = useState('');
 
-  // ✅ 회원 전체 목록 불러오기
   const fetchMembers = async () => {
     try {
       const response = await axios.get('/api/member/all');
       setMembers(response.data);
+      setFilteredMembers(response.data);
     } catch (error) {
       console.error('회원 목록 불러오기 실패:', error);
     }
@@ -48,8 +52,24 @@ const MemberListPage = () => {
     setPageByRole(prev => ({ ...prev, [role]: value }));
   };
 
+  const handleSearch = (value) => {
+    setSearchKeyword(value);
+    if (!value.trim()) {
+      setFilteredMembers(members);
+    } else {
+      const keyword = value.toLowerCase();
+      const result = members.filter(
+        (m) =>
+          m.name?.toLowerCase().includes(keyword) ||
+          m.email?.toLowerCase().includes(keyword) ||
+          m.role?.toLowerCase().includes(keyword)
+      );
+      setFilteredMembers(result);
+    }
+  };
+
   const renderTable = (role) => {
-    const filtered = members.filter(m => m.role === role);
+    const filtered = filteredMembers.filter(m => m.role === role);
     const page = pageByRole[role] || 1;
     const paginated = filtered.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE);
 
@@ -102,9 +122,35 @@ const MemberListPage = () => {
   return (
     <Box p={3}>
       <Typography variant="h4" gutterBottom>전체 회원 관리</Typography>
+
+      {/* 🔍 검색창 추가 */}
+      <TextField
+        label="   이름, 이메일, 권한 검색"
+        // placeholder=" 이름, 이메일, 권한 검색"
+        variant="outlined"
+        fullWidth
+        value={searchKeyword}
+        onChange={(e) => handleSearch(e.target.value)}
+        InputLabelProps={{
+          shrink: searchKeyword.length > 0,
+          sx: {
+            '&.MuiInputLabel-root:not(.MuiInputLabel-shrink)': {
+            marginLeft: '32px',
+            },
+          },
+        }}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon />
+            </InputAdornment>
+          ),
+        }}
+        sx={{ mb: 3 }}
+      />
+
       {roles.map(renderTable)}
 
-      {/* 권한 변경 모달 */}
       {selectedMember && (
         <ChangeRoleModal
           open={openModal}

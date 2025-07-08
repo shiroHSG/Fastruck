@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
-import { Select, MenuItem, Box } from '@mui/material';
+import { Select, MenuItem, Box, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import Chart from 'react-apexcharts'; // CRA에서는 dynamic import 불필요
-
-import DashboardCard from '../shared/DashboardCard'; // 절대경로 수정
+import Chart from 'react-apexcharts';
+import DashboardCard from '../shared/DashboardCard';
 
 const SalesOverview = () => {
   const [month, setMonth] = useState('1');
+  const theme = useTheme();
+  const isMobile = useMediaQuery('(max-width:600px)');
 
   const handleChange = (event) => {
     setMonth(event.target.value);
   };
 
-  const theme = useTheme();
   const primary = theme.palette.primary.main;
   const secondary = theme.palette.secondary.main;
 
@@ -21,17 +21,14 @@ const SalesOverview = () => {
       type: 'bar',
       fontFamily: "'Plus Jakarta Sans', sans-serif;",
       foreColor: '#adb0bb',
-      toolbar: {
-        show: true,
-      },
-      height: 370,
+      toolbar: { show: true },
+      height: '100%',
     },
     colors: [primary, secondary],
     plotOptions: {
       bar: {
-        horizontal: false,
-        barHeight: '60%',
-        columnWidth: '42%',
+        horizontal: true,
+        barHeight: '100%',
         borderRadius: [6],
         borderRadiusApplication: 'end',
         borderRadiusWhenStacked: 'all',
@@ -39,33 +36,24 @@ const SalesOverview = () => {
     },
     stroke: {
       show: true,
-      width: 5,
+      width: 4,
       lineCap: 'butt',
       colors: ['transparent'],
     },
-    dataLabels: {
-      enabled: false,
-    },
-    legend: {
-      show: false,
-    },
+    dataLabels: { enabled: false },
+    legend: { show: false },
     grid: {
       borderColor: 'rgba(0,0,0,0.1)',
       strokeDashArray: 3,
-      xaxis: {
-        lines: {
-          show: false,
-        },
-      },
+      padding: { top: 0, bottom: 0, left: 0, right: 0 },
     },
     yaxis: {
-      tickAmount: 4,
+      categories: ['16/08', '17/08', '18/08', '19/08', '20/08', '21/08', '22/08', '23/08'],
+      axisBorder: { show: false },
     },
     xaxis: {
-      categories: ['16/08', '17/08', '18/08', '19/08', '20/08', '21/08', '22/08', '23/08'],
-      axisBorder: {
-        show: false,
-      },
+      tickAmount: 4,
+      labels: { rotate: 0 },
     },
     tooltip: {
       theme: 'dark',
@@ -85,38 +73,40 @@ const SalesOverview = () => {
   ];
 
   return (
-<DashboardCard
-  title="Sales Overview"
-  action={
-    <Select
-      labelId="month-dd"
-      id="month-dd"
-      value={month}
-      size="small"
-      onChange={handleChange}
+    <DashboardCard
+      title="Sales Overview"
+      sx={{ width: '100%' }}
+      action={
+        <Select
+          labelId="month-dd"
+          id="month-dd"
+          value={month}
+          size="small"
+          onChange={handleChange}
+        >
+          <MenuItem value={1}>March 2025</MenuItem>
+          <MenuItem value={2}>April 2025</MenuItem>
+          <MenuItem value={3}>May 2025</MenuItem>
+        </Select>
+      }
+      contentSX={{ p: 0 }} // ✅ 내부 padding 제거
     >
-      <MenuItem value={1}>March 2025</MenuItem>
-      <MenuItem value={2}>April 2025</MenuItem>
-      <MenuItem value={3}>May 2025</MenuItem>
-    </Select>
-  }
->
-  <Box sx={{ width: '100%', height: { xs: 300, md: 400, lg: 450 } }}>
-    <Chart
-      options={{
-        ...optionscolumnchart,
-        chart: {
-          ...optionscolumnchart.chart,
-          height: '100%', // Apex 내부에서도 반응형
-        },
-      }}
-      series={seriescolumnchart}
-      type="bar"
-      height="100%"
-      width="100%"
-    />
-  </Box>
-</DashboardCard>
+      <Box
+        sx={{
+          width: '100%',
+          flexGrow: 1, // ✅ CardContent 안에서 height 확장
+          aspectRatio: isMobile ? '4 / 3' : '6 / 5',
+        }}
+      >
+        <Chart
+          options={optionscolumnchart}
+          series={seriescolumnchart}
+          type="bar"
+          height="100%"
+          width="100%"
+        />
+      </Box>
+    </DashboardCard>
   );
 };
 

@@ -13,9 +13,9 @@ const DashboardCard = ({
   middlecontent,
 }) => {
   return (
-    <Card sx={{ padding: 0, height: '100%' }} elevation={9}>
+    <Card sx={{ padding: 0, height: '100%',  width: '100%' }} elevation={9}>
       {cardheading ? (
-        <CardContent>
+        <CardContent >
           <Typography variant="h5">{headtitle}</Typography>
           <Typography variant="subtitle2" color="textSecondary">
             {headsubtitle}
@@ -29,7 +29,7 @@ const DashboardCard = ({
               spacing={2}
               justifyContent="space-between"
               alignItems="center"
-              mb={3}
+              sx={{ mb: children ? 0 : 3 }} // ✅ children이 존재하면 margin 제거
             >
               <Box>
                 {title && <Typography variant="h5">{title}</Typography>}
