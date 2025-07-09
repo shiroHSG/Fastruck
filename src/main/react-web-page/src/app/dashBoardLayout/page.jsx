@@ -11,11 +11,11 @@ const Dashboard = () => {
     <PageContainer title="Dashboard" description="this is Dashboard">
       <Grid container spacing={3}>
         {/* 1행 - SalesOverview (한 줄 전체 차지) */}
-        <Grid item xs={12}>
+        {/* <Grid item xs={12}>
           <Box sx={{ width: '100%' }}>
             <SalesOverview />
           </Box>
-        </Grid>
+        </Grid> */}
 
         {/* 2행 - 좌우 나란히 */}
         <Grid item xs={12} sm={6} md={6}>

@@ -13,7 +13,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.deal.Fastruck.entity.enums.Role.CARRIER;
@@ -112,5 +115,36 @@ public class BidProposalService {
                 .status(entity.getStatus())
                 .createdAt(entity.getCreatedAt())
                 .build();
+    }
+
+    @Transactional(readOnly = true)
+    public List<Map<String, Object>> getMonthlyEarningsByYear(int year) {
+        List<BidProposal> acceptedBids = bidProposalRepository.findAll()
+                .stream()
+                .filter(bid -> bid.getStatus() == BidStatus.ACCEPTED &&
+                        bid.getCreatedAt().getYear() == year)
+                .toList();
+
+        Map<String, Long> monthlySum = new HashMap<>();
+        for (int i = 1; i <= 12; i++) {
+            String month = String.format("%02d", i);
+            monthlySum.put(month, 0L);
+        }
+
+        for (BidProposal bid : acceptedBids) {
+            String month = String.format("%02d", bid.getCreatedAt().getMonthValue());
+            monthlySum.put(month, monthlySum.get(month) + bid.getProposedPrice());
+        }
+
+        // 결과 변환
+        List<Map<String, Object>> result = new ArrayList<>();
+        for (String month : monthlySum.keySet().stream().sorted().toList()) {
+            Map<String, Object> entry = new HashMap<>();
+            entry.put("month", month);
+            entry.put("totalPrice", monthlySum.get(month));
+            result.add(entry);
+        }
+
+        return result;
     }
 }

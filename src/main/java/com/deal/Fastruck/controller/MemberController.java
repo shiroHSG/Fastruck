@@ -14,6 +14,7 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -103,6 +104,20 @@ public class MemberController {
     public ResponseEntity<MemberResponseDto> getMe(@CurrentMember Member member) {
         MemberResponseDto responseDto = memberService.getMember(member);
         return ResponseEntity.ok(responseDto);
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<MemberResponseDto> getAdmin(@CurrentMember Member member) {
+        if (member == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        try {
+            MemberResponseDto responseDto = memberService.getMember(member);
+            return ResponseEntity.ok(responseDto);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     /**

@@ -16,7 +16,9 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -73,5 +75,17 @@ public class ContractService {
     public void deleteContract(Long id, Member member) {
     }
 
-
+    @Transactional(readOnly = true)
+    public List<Map<String, Object>> getRecentContracts() {
+        List<Contract> contractList = contractRepository.findTop5ByOrderByUpdatedAtDesc(); // 이 부분이 List여야 함
+        return contractList.stream().map(contract -> {
+            Map<String, Object> result = new HashMap<>();
+            result.put("id", contract.getId());
+            result.put("assigned", contract.getShipper().getName());
+            result.put("name", contract.getCarrier().getName());
+            result.put("priority", contract.getStatus().name());
+            result.put("budget", contract.getBidProposal().getProposedPrice());
+            return result;
+        }).collect(Collectors.toList());
+    }
 }

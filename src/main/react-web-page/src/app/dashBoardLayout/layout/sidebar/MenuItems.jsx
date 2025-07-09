@@ -2,8 +2,6 @@ import {
   IconAperture,
   IconCopy,
   IconLayoutDashboard,
-  IconLogin,
-  IconMoodHappy,
   IconTypography,
   IconUserPlus,
   IconUsers,
@@ -14,7 +12,7 @@ import { uniqueId } from "lodash";
 const Menuitems = [
   {
     navlabel: true,
-    subheader: "HOME",
+    subheader: "대시보드",
   },
 
   {
@@ -45,15 +43,9 @@ const Menuitems = [
   },
   {
     id: uniqueId(),
-    title: "Typography",
+    title: "화물요청 목록",
     icon: IconTypography,
-    href: "/utilities/typography",
-  },
-  {
-    id: uniqueId(),
-    title: "Shadow",
-    icon: IconCopy,
-    href: "/utilities/shadow",
+    href: "/cms/cargo/CargoRequestList",
   },
   {
     navlabel: true,
@@ -61,9 +53,13 @@ const Menuitems = [
   },
   {
     id: uniqueId(),
-    title: "Icons",
-    icon: IconMoodHappy,
-    href: "/icons",
+    title: "신고 목록",
+    icon: IconCopy,
+    href: "/cms/cargo/CargoRequestDetail",
+  },
+  {
+    navlabel: true,
+    subheader: " Read Me",
   },
   {
     id: uniqueId(),

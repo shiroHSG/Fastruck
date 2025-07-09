@@ -134,6 +134,21 @@ public class CargoRequestService {
         return toDto(entity);
     }
 
+    // (추가) 검색
+    @Transactional(readOnly = true)
+    public List<CargoRequestDto> getAllCargoRequests() {
+        List<CargoRequest> list = cargoRequestRepository.findAll();
+        return list.stream().map(this::toDto).collect(Collectors.toList());
+    }
+
+    public List<CargoRequestDto> search(String departure, String arrival) {
+        return cargoRequestRepository.findAll().stream()
+                .filter(cargo -> (departure == null || cargo.getDepartureLocation().contains(departure)))
+                .filter(cargo -> (arrival == null || cargo.getArrivalLocation().contains(arrival)))
+                .map(CargoRequestDto::from)
+                .collect(Collectors.toList());
+    }
+
     // Entity → DTO 변환
     private CargoRequestDto toDto(CargoRequest entity) {
         Member shipper = entity.getShipper();

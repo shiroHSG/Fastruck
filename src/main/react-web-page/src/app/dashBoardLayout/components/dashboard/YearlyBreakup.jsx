@@ -10,7 +10,7 @@ import {
 import { IconArrowUpRight, IconArrowDownRight } from '@tabler/icons-react';
 import DashboardCard from '../../components/shared/DashboardCard';
 import PieChart from '../shared/PieChart';
-import axios from 'axios';
+import { getUserStatsByYear } from '../../../../api/dashboardApi'; // ✅ 대체된 API 호출
 
 const YearlyBreakup = () => {
   const currentYear = new Date().getFullYear();
@@ -24,12 +24,10 @@ const YearlyBreakup = () => {
 
   const fetchData = async (year) => {
     try {
-      const res = await axios.get(
-        `http://localhost:8080/api/member/count/by-year?year=${year}`
-      );
-      setData(res.data);
+      const res = await getUserStatsByYear(year); // ✅ 통합 API 사용
+      setData(res);
     } catch (error) {
-      console.error('데이터 요청 실패:', error);
+      console.error('사용자 통계 불러오기 실패:', error);
     }
   };
 

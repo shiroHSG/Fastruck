@@ -64,6 +64,20 @@ public class CargoRequestController {
         }
     }
 
+    //React 전체 Cargo 검색
+    @GetMapping("/all")
+    public List<CargoRequestDto> getAllCargoRequests() {
+        return cargoRequestService.getAllCargoRequests();
+    }
+
+    @GetMapping("/search")
+    public List<CargoRequestDto> search(
+            @RequestParam(required = false) String departureLocation,
+            @RequestParam(required = false) String arrivalLocation) {
+
+        return cargoRequestService.search(departureLocation, arrivalLocation);
+    }
+
     // 상세조회
     @GetMapping("/{id}")
     public CargoRequestDto getCargoRequestDetail(@PathVariable Long id) {

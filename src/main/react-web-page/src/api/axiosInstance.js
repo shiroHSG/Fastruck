@@ -1,14 +1,15 @@
 // src/api/axiosInstance.js
 import axios from 'axios';
 
-const instance = axios.create({
+const axiosInstance = axios.create({
   baseURL: 'http://localhost:8080',
+  withCredentials: true, // 쿠키로 RefreshToken 보내기
 });
 
-// JWT 토큰 자동 추가
-instance.interceptors.request.use(
+// 요청 시 AccessToken 자동 첨부
+axiosInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('accessToken'); // 또는 쿠키에서 가져오기
+    const token = localStorage.getItem('accessToken');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -17,4 +18,37 @@ instance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-export default instance;
+// 응답 시 AccessToken 만료 → 재발급 처리
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      try {
+        const refreshRes = await axios.post(
+          'http://localhost:8080/api/auth/refresh',
+          {},
+          { withCredentials: true }
+        );
+
+        const newAccessToken = refreshRes.data.accessToken;
+        localStorage.setItem('accessToken', newAccessToken);
+        axiosInstance.defaults.headers.Authorization = `Bearer ${newAccessToken}`;
+        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+
+        return axiosInstance(originalRequest);
+      } catch (refreshError) {
+        localStorage.removeItem('accessToken');
+        window.location.href = '/login';
+        return Promise.reject(refreshError);
+      }
+    }
+
+    return Promise.reject(error);
+  }
+);
+
+export default axiosInstance;

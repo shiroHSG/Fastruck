@@ -48,4 +48,5 @@ public class ContractController {
         contractService.updateContractStatus(bidProposalId, dto, member);
         return ResponseEntity.ok(Map.of("message", "운송 상태가 변경되었습니다."));
     }
+
 }

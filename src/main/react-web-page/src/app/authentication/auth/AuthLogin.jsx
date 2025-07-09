@@ -12,18 +12,22 @@ import { login } from '../../../api/authApi';
 const AuthLogin = ({ title, subtitle, subtext }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const res = await login(email, password);
+
+      // ✅ AccessToken만 저장
       localStorage.setItem('accessToken', res.accessToken);
-      localStorage.setItem('refreshToken', res.refreshToken);
+
       console.log('로그인 성공:', res);
       navigate('/dashboard');
     } catch (err) {
-      alert(`로그인 실패: ${err}`);
+      const msg = typeof err === 'string' ? err : err.message || '로그인 실패';
+      setErrorMsg(msg);
     }
   };
 
@@ -76,6 +80,12 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
           />
         </Box>
 
+        {errorMsg && (
+          <Typography color="error" variant="body2" textAlign="center">
+            {errorMsg}
+          </Typography>
+        )}
+
         <Box>
           <Button
             color="primary"
@@ -83,6 +93,7 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
             size="large"
             fullWidth
             type="submit"
+            disabled={!email || !password} // 옵션: 유효성 검사
           >
             Sign In
           </Button>
