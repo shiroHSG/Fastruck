@@ -3,6 +3,7 @@ package com.deal.Fastruck.controller;
 import com.deal.Fastruck.annotation.CurrentMember;
 import com.deal.Fastruck.dto.ReportRequestDto;
 import com.deal.Fastruck.dto.ReportResponseDto;
+import com.deal.Fastruck.dto.ReportedCarrierStatDto;
 import com.deal.Fastruck.entity.Member;
 import com.deal.Fastruck.service.ReportService;
 import lombok.RequiredArgsConstructor;
@@ -49,5 +50,12 @@ public class ReportController {
     public ResponseEntity<ReportResponseDto> getReportDetail(@PathVariable Long reportId) {
         ReportResponseDto dto = reportService.getReportDetail(reportId);
         return ResponseEntity.ok(dto);
+    }
+
+    // 신고 통계 조회 (차주별 신고 누적 수 - 관리자용)
+    @GetMapping("/admin/statistics")
+    public ResponseEntity<List<ReportedCarrierStatDto>> getReportStatistics() {
+        List<ReportedCarrierStatDto> stats = reportService.getReportStatistics();
+        return ResponseEntity.ok(stats);
     }
 }

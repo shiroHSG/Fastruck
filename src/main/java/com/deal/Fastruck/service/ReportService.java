@@ -2,6 +2,7 @@ package com.deal.Fastruck.service;
 
 import com.deal.Fastruck.dto.ReportRequestDto;
 import com.deal.Fastruck.dto.ReportResponseDto;
+import com.deal.Fastruck.dto.ReportedCarrierStatDto;
 import com.deal.Fastruck.entity.Contract;
 import com.deal.Fastruck.entity.Member;
 import com.deal.Fastruck.entity.Report;
@@ -69,5 +70,10 @@ public class ReportService {
         Report report = reportRepository.findById(reportId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 신고 내역을 찾을 수 없습니다."));
         return ReportResponseDto.from(report);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ReportedCarrierStatDto> getReportStatistics() {
+        return reportRepository.findReportStatistics();
     }
 }

@@ -6,11 +6,9 @@ import {
   styled,
   Stack,
   IconButton,
-  Badge,
   Button
 } from '@mui/material';
-import { IconBellRinging, IconMenu } from '@tabler/icons-react';
-import Profile from './Profile';
+import { IconMenu } from '@tabler/icons-react';
 
 const AppBarStyled = styled(AppBar)(({ theme }) => ({
   boxShadow: 'none',
@@ -62,17 +60,6 @@ function Header({ toggleSidebar, toggleMobileSidebar }) {
           <IconMenu width="20" height="20" />
         </IconButton>
 
-        {/* 알림 */}
-        <IconButton
-          size="large"
-          aria-label="show notifications"
-          color="inherit"
-        >
-          <Badge variant="dot" color="primary">
-            <IconBellRinging size="21" stroke="1.5" />
-          </Badge>
-        </IconButton>
-
         <Box flexGrow={1} />
 
         {/* 우측 영역: 로그인 버튼 + 프로필 */}
@@ -83,9 +70,8 @@ function Header({ toggleSidebar, toggleMobileSidebar }) {
             disableElevation
             color="primary"
           >
-            Login
+            Logout
           </Button>
-          <Profile />
         </Stack>
       </ToolbarStyled>
     </AppBarStyled>

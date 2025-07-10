@@ -12,7 +12,9 @@ public class ReportResponseDto {
     private Long id;
     private Long contractId;
     private Long reporterId;
+    private String reporterName; // 추가
     private Long targetId;
+    private String targetName;   // 추가
     private String reason;
     private String description;
     private LocalDateTime createdAt;
@@ -22,7 +24,9 @@ public class ReportResponseDto {
                 .id(report.getId())
                 .contractId(report.getContract().getId())
                 .reporterId(report.getReporter().getId())
+                .reporterName(report.getReporter().getName()) // 추가
                 .targetId(report.getTarget().getId())
+                .targetName(report.getTarget().getName())     // 추가
                 .reason(report.getReason())
                 .description(report.getDescription())
                 .createdAt(report.getCreatedAt())

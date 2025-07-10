@@ -14,6 +14,7 @@ import CargoRequestDetail from './app/cms/cargo/CargoRequestDetail';
 // import ShadowPage from './app/dashBoardLayout/utilities/shadow/page';
 import SamplePage from './app/dashBoardLayout/sample-page/page';
 import MemberListPage from './app/authentication/role/page';
+import ReportPage from './app/report/page'; 
 
 // ✅ 관리자 보호 라우트
 import AdminRoute from './router/AdminRoute';
@@ -73,6 +74,9 @@ function App() {
               </AdminRoute>
             }
           />
+
+          {/* 신고 관련 페이지 */}
+          <Route path="/report" element={<DashboardLayout><ReportPage /></DashboardLayout>} />
 
           {/* 없는 경로 → login로 */}
           <Route path="*" element={<Navigate to="/authentication/login" replace />} />

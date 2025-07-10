@@ -81,10 +81,10 @@ public class ContractService {
         return contractList.stream().map(contract -> {
             Map<String, Object> result = new HashMap<>();
             result.put("id", contract.getId());
-            result.put("assigned", contract.getShipper().getName());
-            result.put("name", contract.getCarrier().getName());
-            result.put("priority", contract.getStatus().name());
-            result.put("budget", contract.getBidProposal().getProposedPrice());
+            result.put("shipper_name", contract.getShipper().getName());
+            result.put("carrier_name", contract.getCarrier().getName());
+            result.put("status", contract.getStatus().name());
+            result.put("charge", contract.getBidProposal().getProposedPrice());
             return result;
         }).collect(Collectors.toList());
     }

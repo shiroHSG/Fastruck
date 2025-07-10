@@ -55,7 +55,7 @@ const Menuitems = [
     id: uniqueId(),
     title: "신고 목록",
     icon: IconCopy,
-    href: "/cms/cargo/CargoRequestDetail",
+    href: "/report",
   },
   {
     navlabel: true,

@@ -17,7 +17,7 @@ const Logo = () => {
           src={process.env.PUBLIC_URL + "/logo/logo1.png"}
           alt="logo"
           height="200"
-          width="150"
+          width="300"
           style={{ display: "block" }}
         />
       </Link>

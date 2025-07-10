@@ -20,7 +20,7 @@ public class DashboardController {
     private final ContractService contractService;
 
     // ✅ 연도별 사용자 통계 (PieChart)
-    @GetMapping("/user-stats")
+    @GetMapping("/count/by-year")
     public ResponseEntity<?> getUserStatsByYear(@RequestParam int year) {
         return ResponseEntity.ok(memberService.getUserStatsByYear(year));
     }

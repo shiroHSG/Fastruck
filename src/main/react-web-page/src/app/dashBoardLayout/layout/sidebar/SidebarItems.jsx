@@ -11,6 +11,7 @@ import {
 import { IconPoint } from "@tabler/icons-react";
 import { Link, useLocation } from "react-router-dom";
 import { Upgrade } from "./Updrade";
+import logo_icon from "../shared/logo/Logo";
 
 const renderMenuItems = (items, currentPath) => {
   return items.map((item) => {
@@ -61,9 +62,32 @@ const SidebarItems = () => {
       themeColor={"#5D87FF"}
       themeSecondaryColor={"#49beff"}
     >
-      <Logo img="/images/logos/dark-logo.svg" component={Link} to="/">
+      {/* <Logo img="/images/logo/logo1.png" component={Link} to="/">
         Modernize
-      </Logo>
+      </Logo> */}
+      <Box
+        sx={{
+          width: '100%',
+          aspectRatio: '3 / 1',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          overflow: 'hidden',
+          backgroundColor: '#fff',
+        }}
+      >
+        <Box
+          component="img"
+          src="../../../../logo/logo1.png"
+          alt="Logo"
+          sx={{
+            height: '200%',         // PNG 여백이 클 경우 확대
+            width: 'auto',
+            objectFit: 'cover',
+            transform: 'translateY(5%)', // 미세 조정
+          }}
+        />
+      </Box>
 
       {renderMenuItems(Menuitems, currentPath)}
 

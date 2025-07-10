@@ -156,9 +156,4 @@ public class MemberController {
         memberService.updateMemberRole(id, dto.getNewRole());
         return ResponseEntity.ok(Map.of("message", "권한이 성공적으로 변경되었습니다."));
     }
-
-    @GetMapping("/count/by-year")
-    public ResponseEntity<?> getUserStatsByYear(@RequestParam int year) {
-        return ResponseEntity.ok(memberService.getUserStatsByYear(year));
-    }
 }

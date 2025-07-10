@@ -7,8 +7,11 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  Chip
+  Chip,
+  Tooltip,
+  Stack
 } from '@mui/material';
+import { IconInfoCircle } from '@tabler/icons-react';
 import DashboardCard from '../../components/shared/DashboardCard';
 import { getLatestContracts } from '../../../../api/dashboardApi';
 
@@ -18,6 +21,14 @@ const statusColorMap = {
   DEPARTED: 'error.main',
   ARRIVED: 'warning.main',
   COMPLETED: 'success.main',
+};
+
+const statusDescriptionMap = {
+  MOVING_TO_HUB: 'MOVING_TO_HUB: 집하지로 이동 중',
+  LOADING: 'LOADING: 화물 적재 중',
+  DEPARTED: 'DEPARTED: 배송 출발',
+  ARRIVED: 'ARRIVED: 배송지 도착',
+  COMPLETED: 'COMPLETED: 배송 완료',
 };
 
 const ProductPerformance = () => {
@@ -43,29 +54,32 @@ const ProductPerformance = () => {
           <TableHead>
             <TableRow>
               <TableCell>
-                <Typography variant="subtitle2" fontWeight={600}>
-                  Id
-                </Typography>
+                <Typography variant="subtitle2" fontWeight={600}>No.</Typography>
               </TableCell>
               <TableCell>
-                <Typography variant="subtitle2" fontWeight={600}>
-                  Assigned
-                </Typography>
+                <Typography variant="subtitle2" fontWeight={600}>화물 요청자</Typography>
               </TableCell>
               <TableCell>
-                <Typography variant="subtitle2" fontWeight={600}>
-                  Name
-                </Typography>
+                <Typography variant="subtitle2" fontWeight={600}>운송기사</Typography>
               </TableCell>
               <TableCell>
-                <Typography variant="subtitle2" fontWeight={600}>
-                  Priority
-                </Typography>
+                <Stack direction="row" alignItems="center" spacing={0.5}>
+                  <Typography variant="subtitle2" fontWeight={600}>운송 상태</Typography>
+                  <Tooltip
+                    title={
+                      <Box sx={{ whiteSpace: 'pre-line' }}>
+                        {Object.values(statusDescriptionMap).join('\n')}
+                      </Box>
+                    }
+                    arrow
+                    placement="top"
+                  >
+                    <IconInfoCircle size={16} style={{ cursor: 'pointer', color: '#888' }} />
+                  </Tooltip>
+                </Stack>
               </TableCell>
               <TableCell align="right">
-                <Typography variant="subtitle2" fontWeight={600}>
-                  Budget
-                </Typography>
+                <Typography variant="subtitle2" fontWeight={600}>금액</Typography>
               </TableCell>
             </TableRow>
           </TableHead>
@@ -73,35 +87,31 @@ const ProductPerformance = () => {
             {contracts.map((item) => (
               <TableRow key={item.id}>
                 <TableCell>
-                  <Typography fontSize={15} fontWeight={500}>
-                    {item.id}
-                  </Typography>
+                  <Typography fontSize={15} fontWeight={500}>{item.id}</Typography>
                 </TableCell>
                 <TableCell>
                   <Typography variant="subtitle2" fontWeight={600}>
-                    {item.assigned}
+                    {item.shipper_name}
                   </Typography>
                 </TableCell>
                 <TableCell>
                   <Typography color="textSecondary" variant="subtitle2">
-                    {item.name}
+                    {item.carrier_name}
                   </Typography>
                 </TableCell>
                 <TableCell>
                   <Chip
                     sx={{
                       px: '4px',
-                      backgroundColor: statusColorMap[item.priority] || 'grey.500',
+                      backgroundColor: statusColorMap[item.status] || 'grey.500',
                       color: '#fff',
                     }}
                     size="small"
-                    label={item.priority}
+                    label={item.status}
                   />
                 </TableCell>
                 <TableCell align="right">
-                  <Typography variant="h6">
-                    {item.budget.toLocaleString()}원
-                  </Typography>
+                  <Typography variant="h6">{item.charge.toLocaleString()}원</Typography>
                 </TableCell>
               </TableRow>
             ))}
