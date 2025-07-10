@@ -31,10 +31,14 @@ function App() {
       <Router>
         <Routes>
           {/* 기본 경로 → dashboard로 리디렉트 */}
-          <Route path="/" element={<Navigate to="/dashboard" replace />} />
+          <Route path="/" element={<Navigate to="/authentication/login" replace />} />
 
           {/* 인증 관련 */}
-          <Route path="/authentication/role" element={<DashboardLayout><MemberListPage /></DashboardLayout>} />
+          <Route path="/authentication/role" element={
+            <AdminRoute>
+            <DashboardLayout><MemberListPage /></DashboardLayout>
+            </AdminRoute>
+          } />
           <Route path="/authentication/login" element={<AuthLayout><LoginPage /></AuthLayout>} />
           <Route path="/authentication/register" element={<AuthLayout><RegisterPage /></AuthLayout>} />
 
@@ -76,7 +80,12 @@ function App() {
           />
 
           {/* 신고 관련 페이지 */}
-          <Route path="/report" element={<DashboardLayout><ReportPage /></DashboardLayout>} />
+          <Route path="/report" element={
+            <AdminRoute>
+            <DashboardLayout><ReportPage /></DashboardLayout>
+            </AdminRoute>
+            }
+          />
 
           {/* 없는 경로 → login로 */}
           <Route path="*" element={<Navigate to="/authentication/login" replace />} />

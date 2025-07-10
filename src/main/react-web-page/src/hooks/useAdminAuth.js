@@ -10,11 +10,17 @@ const useAdminAuth = () => {
     const checkRole = async () => {
       try {
         const user = await fetchMyInfo();
-        if (user.role === 'ADMIN') {
+
+        // 관리자 권한 확인 (ADMIN 외 다른 권한 방지용 if-else)
+        if (user?.role === 'ADMIN') {
           setIsAdmin(true);
+        } else {
+          setIsAdmin(false);
         }
+
       } catch (e) {
         console.warn('인증 정보 불러오기 실패:', e);
+        setIsAdmin(false); // 예외 발생 시 관리자 아님으로 처리
       } finally {
         setLoading(false);
       }
