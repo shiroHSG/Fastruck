@@ -31,6 +31,11 @@ dependencies:
   flutter:
     sdk: flutter
   http: ^0.13.6
+  intl: ^0.18.1
+  shared_preferences: ^2.2.2
+  table_calendar: ^3.0.9
+  webview_flutter: ^4.2.2
+  webview_flutter_android: ^3.10.2
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -52,6 +57,14 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+  fonts:
+    - family: NanumGothic
+      fonts:
+        - asset: assets/font/NanumGothic-Regular.ttf
+        - asset: assets/font/NanumGothic-Bold.ttf
+          weight: 700
+        - asset: assets/font/NanumGothic-ExtraBold.ttf
+          weight: 800
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
@@ -59,9 +72,9 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+     - assets/image/logo1.png
+     - assets/image/logo2.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
