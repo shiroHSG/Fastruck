@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/shppier/shipper_review/shipper_review.dart';
+import 'package:flutter_app/shipper/shipper_review/shipper_review.dart';
 
 import 'app_theme.dart';
-import 'package:flutter_app/shppier/shipper_home/shipper_home.dart';
+import 'package:flutter_app/shipper/shipper_home/shipper_home.dart';
 import 'carrier/carrier_home/carrier_home.dart';
 import 'login/login.dart';
 

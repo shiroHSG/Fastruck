@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;  // ← 서버 POST를 위해 추가!
+import 'dart:convert';
 import '../../../app_theme.dart';
-import 'address_search_page.dart'; // 주소 검색 페이지 import
+import 'address_search_page.dart';
+import '../../main.dart'; // baseUrl
 
 class RequestWritePage extends StatefulWidget {
   const RequestWritePage({super.key});
@@ -65,6 +68,88 @@ class _RequestWritePageState extends State<RequestWritePage> {
         controller.text = result;
       });
     }
+  }
+
+  /// 날짜포맷 "yyyy.MM.dd" -> "yyyy-MM-ddT00:00:00" 변환
+  String? _convertToIsoDate(String dateStr) {
+    if (dateStr.isEmpty) return null;
+    try {
+      final dt = DateFormat('yyyy.MM.dd').parse(dateStr);
+      return DateFormat("yyyy-MM-dd'T'HH:mm:ss").format(dt);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<void> _registerCargo() async {
+    final prefs = await SharedPreferences.getInstance();
+    final accessToken = prefs.getString('accessToken') ?? '';
+
+    final requestData = {
+      "requestContent": memoController.text,
+      "departureLocation": departureController.text,
+      "arrivalLocation": arrivalController.text,
+      "cargoType": cargoTypeController.text,
+      "weight": double.tryParse(weightController.text) ?? 0.0,
+      "pickupTime": _convertToIsoDate(departureDateController.text),
+      "deliveryTime": _convertToIsoDate(arrivalDateController.text),
+      "expectedTime": "", // 필요시 값 입력
+    };
+
+    print('[화물등록 요청] $requestData');
+
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/api/cargo-requests'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $accessToken',
+        },
+        body: jsonEncode(requestData),
+      );
+
+      print('[화물등록 응답] status=${response.statusCode} body=${response.body}');
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (!mounted) return;
+        showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+            title: const Text('성공'),
+            content: const Text('화물 요청이 등록되었습니다!'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context); // 다이얼로그 닫기
+                  Navigator.pop(context, true); // 등록화면 닫고, 이전화면에 true 반환
+                },
+                child: const Text('확인'),
+              ),
+            ],
+          ),
+        );
+      } else {
+        _showDialog('등록 실패: ${response.statusCode}\n${response.body}');
+      }
+    } catch (e) {
+      _showDialog('등록 중 오류 발생: $e');
+    }
+  }
+
+  void _showDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text('알림'),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('확인'),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -257,10 +342,7 @@ class _RequestWritePageState extends State<RequestWritePage> {
                 const SizedBox(width: 10),
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: () {
-                      debugPrint('작성 완료');
-                      // TODO: 등록 로직 추가
-                    },
+                    onPressed: _registerCargo, // ← 등록 함수 연결!
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primary,
                       padding: const EdgeInsets.symmetric(vertical: 14),
