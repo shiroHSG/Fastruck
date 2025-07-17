@@ -53,7 +53,8 @@ public class CargoRequestController {
     @GetMapping
     public List<CargoRequestDto> getCargoRequests(
             @RequestParam(required = false) String departureLocation,
-            @RequestParam(required = false) String arrivalLocation
+            @RequestParam(required = false) String arrivalLocation,
+            @AuthenticationPrincipal Long userId
     ) {
         if (departureLocation == null && arrivalLocation == null) {
             return cargoRequestService.getOpenCargoRequests();
